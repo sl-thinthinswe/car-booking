@@ -1,0 +1,843 @@
+/* Header Start  */
+@font-face {
+    font-family: 'Inter';
+    src: url('/fonts/Inter_28pt-Medium.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+*{
+    box-sizing: border-box !important;
+    font-family: Inter;
+}
+
+
+
+.header-bar{
+    background-color: #1E3399;
+}
+
+.header-bar .brand{
+    font-size: 20px;
+}
+
+.search-box{
+    width: 25%;
+    position: relative;
+}
+
+.search-box input{
+    width: 100%;
+    display: block;
+    height: 35px;
+    color: white !important;
+    font-size: 16px;
+    font-style: normal;
+    padding-left: 13%;
+    font-weight: 400;
+    box-shadow: none !important;
+
+    border-radius: 26px !important;
+    border: 1px solid #4D60BE !important;
+    background: #112481 !important;
+}
+
+.search-box input::placeholder{
+    color: #fff;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.search-box .search-btn{
+    width: 56px; 
+    height: 56px; 
+    border: 0;
+    background: none;
+    cursor: auto;
+    
+    position: absolute;
+    top: 50%; 
+    transform: translateY(-50%);
+}
+
+.search-box .search-btn i{
+    font-size: 18px;
+    color: #fff;
+}
+
+.search-box + button i{
+    font-size: 22px;
+}
+
+.profile-action .noti{
+    color: white;
+}
+
+.profile-action .create-btn{
+    color: white;
+    text-decoration: none;
+}
+
+.profile-action .profile{
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 31px;
+    background: #112481;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.profile-action .create-btn i, .profile-action .profile i{
+    font-size: 13px;
+    color: white;
+}
+
+.profile-action .profile img{
+    width: 30px; 
+    height: 30px;
+    border-radius: 50%;
+}
+
+.profile-action .dropdown-menu a{
+    text-decoration: none;
+    color: #222;
+    font-size: 14px;
+    font-weight: 400;
+}
+.profile-action .dropdown-menu li{
+    padding: 10px;
+}
+
+.profile-action .dropdown-menu li:active{
+    background: none !important;
+}
+.profile-action .dropdown-menu li:first-child{
+    border-bottom: 1px solid #EFF1F8;
+}
+/* Header End  */
+.sidebar {
+    min-height: 100vh;
+    background: #fff;
+    border-right: 1px solid #ECECEC;
+    width: 16%;
+}
+
+.sidebar .nav-link {
+    color: #222;
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 2px 0;
+    margin-right: 10px;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background-color: #E6EAFF;
+    transform: translateX(5px);
+}
+
+.sidebar .nav-link i {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.sidebar .nav-link:hover i, 
+.sidebar .nav-link.active i{
+    color: #1E3399;
+}
+
+.main-content {
+    width: 84%;
+    background-color: #F4F6F8;
+    
+}
+
+.toggle-btn,.main-page-toggle{
+    border:none;
+    width: 25px;
+    height: 19px;
+    background-color: transparent;
+
+    position: relative
+}
+.toggle-btn .toggle-bar, .main-page-toggle .toggle-bar{
+    height: 3px;
+    width: 100%;
+    left: 0; 
+    top: 0;
+    background-color: #000;
+
+    position: absolute;
+}
+
+.toggle-bar:nth-child(2){
+    top: 8px;
+}
+
+.toggle-bar:nth-child(3){
+    top: 16px;
+}
+
+.main-page{
+    min-height: 100vh;
+    position: relative;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.main-page-toggle{
+    position: absolute;
+    z-index: 10;
+    top: 50%;
+    left: 3px;
+    transform: translateY(-50%);
+}
+
+/* My Page Start */
+.page-action-bar .page-action{
+    font-size: 13px;
+    text-decoration: none;
+}
+
+.page-action-bar .page-action:first-child{
+     color: white;
+     background-color: gray;
+     padding: 8px 10px;
+     border-radius: 5px;
+}
+
+.page-action-bar .page-action:last-child{
+    color: gray;
+}
+
+.page-action-bar .page-action:last-child i{
+    font-size: 20px;
+}
+
+@media screen and (max-width: 1115px) {
+    .sidebar{
+        width: 8%;
+    }
+    .main-content{
+        width: 92%;
+    }
+    .nav-link span,.sidebar h4 span{
+        display: none;
+    }
+    .sidebar .nav-link{
+        padding: 8px;
+        text-align: center;
+        margin: 5px;
+        border-radius: 5px;
+    }
+
+    .sidebar .nav-link i{
+        margin-right: 0;
+    }
+    .sidebar .nav-link:hover,
+    .sidebar .nav-link.active{
+        transform: translateX(0);
+    }
+
+    .search-box .search-btn{
+        display: none;
+    }
+}
+
+@media screen and (max-width: 975px) {
+    .channel-info{
+        margin-top: 100px;
+    }
+    .channel-info .info{
+        margin-left: 16px !important;
+    }
+
+}
+
+@media screen and (max-width: 710px) {
+    .channel-info{
+        margin-top: 100px;
+        display: block !important;
+    }
+    .channel-info .info{
+        margin-left: 16px !important;
+    }
+
+    .channel-info .info + div{
+        text-align: left !important;
+        margin-top: 30px !important;
+        margin-left: 16px !important;
+    }
+
+}
+
+@media screen and (max-width: 680px){
+    .sidebar{
+        width: 10%;
+    }
+    .main-content{
+        width: 90%;
+    }
+
+}
+
+/* Profile Cover Start  */
+
+.profile-cover{
+    height: 250px;
+    background: linear-gradient(96deg, rgba(109, 187, 255, 0.68) -11.2%, rgba(230, 62, 163, 0.68) 120.08%);
+    color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+
+    position: relative;
+}
+
+.profile-cover .profile{
+    width: 150px; 
+    height: 150px; 
+    background: linear-gradient(0deg, #0093A9 0%, #0093A9 100%);
+    display: flex; 
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: bold;
+    font-size: 23px;
+    border-radius: 50%;
+
+    position: absolute;
+    top: 100%; 
+    left: 130px;
+    transform: translate(-50%,-50%);
+}
+
+.profile-cover .profile img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+.profile-cover .profile::before{
+    content: '';
+    position: absolute;
+    width: 160px; 
+    height: 160px;
+
+    border: 1px solid #C5C5C5;
+    border-radius: 50%;
+}
+
+
+.custom-file-label {
+    display: inline-flex;
+    font-size: 16px;
+    gap: 4px;
+    padding: 8px 18px;
+    border-radius: 26px;
+    background: #DADADA;
+    cursor: pointer;
+    border: none;
+    float: right;
+}
+
+.custom-file-input {
+    display: none;
+}
+
+.custom-icon {
+    font-size: 20px;
+}
+
+.channel-info .info{
+    margin-left: 220px;
+}
+
+.channel-info .info h4{
+    color: #222;
+    font-size: 22px;
+}
+
+.channel-info .info .fantube-url{
+    font-size: 12px;
+}
+
+.channel-info .info .publish-status{
+    font-size: 13px;
+}
+
+.channel-info .info .headline{
+    color: #474747;
+    font-size: 14px;
+}
+
+.channel-info .info .customize-channel-btn{
+    text-decoration: none;
+    font-size: 13px;
+    color: #060606;
+    padding: 10px 18px;
+    border-radius: 26px;
+    background: #EFEFEF;
+}
+.create-post-btn,.channel-option-btn{
+    padding: 5px 12px; 
+    border-radius: 5px;
+    color: #504f4f;
+}
+
+.create-post-btn i{
+    font-size: 12px;
+}
+
+.channel-option-btn, .create-post-btn{
+    text-decoration: none;
+    padding: 5px 10px; 
+    border-radius: 5px;
+    background-color: #eee;
+}
+
+.channel-feature a{
+    text-decoration: none; 
+    font-size: 14px;
+    color:  #000;
+    padding: 10px;
+}
+
+.channel-feature .nav a{
+    margin: auto 20px;
+}
+
+.channel-feature .nav a.active{
+    border-bottom: 2px solid #000;
+}
+
+.channel-feature .tab{
+    width: 50%;
+    margin: auto;
+}
+
+.channel-feature .home .feature{
+    margin: 20px auto;
+}
+
+.channel-feature .home .feature .status i{
+    font-size: 23px;
+}
+
+.channel-feature .home .feature i.active{
+
+    background-color: white;
+    color: green;
+    border-radius: 50%;
+}
+
+.channel-feature .home .feature p.title{
+    color: #000; 
+    font-size: 13px;
+    font-weight: 600;
+}
+.channel-feature .home .feature p.description{
+    color: #737373; 
+    font-size: 12px; 
+    font-weight: 400;
+}
+
+.channel-feature .home .channel-message{
+    color: #000; 
+    font-size: 14px;
+    font-weight: 600;
+}
+.channel-feature .home .channel-desc{
+    columns: #737373;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.channel-feature .home .channel-info-status{
+    color: #0093A9;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+/* Start Collection */
+
+.collection .title, .membership .title, .collection h6{
+    color: #000;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.collection h6{
+    font-size: 14px;
+}
+
+.collection .description{
+    color: #737373;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.collection .create-collection-btn, .membership .create-tier-btn{
+    color: #151515;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 23px;
+    background: #EFEFEF;
+}
+
+.membership .tier{
+    border-radius: 6px;
+    border: 1px solid #D8D8D8;
+    padding: 10px;
+}
+
+.membership .price{
+    color: #000; 
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.membership .member{
+    color: #737373; 
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.membership .tier-description, .membership .edit-tier-btn{
+    color: #252525; 
+    font-size: 13px;
+    font-weight: 400;
+}
+
+.membership .edit-tier-btn{
+    color: #5B5B5B;
+}
+
+.about h3{
+    color: #000;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.about p{
+    color: #737373;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.about .add-detail-btn{
+    color: #151515;
+    border-radius: 23px;
+    border: 1px solid #000;
+    font-size: 14px;
+    font-weight: 400;
+}
+/* End Collection  */
+
+/* Profile Cover End  */
+
+/* Start Membership Tier  */
+
+.form-content-section {
+    color: #404040;
+    width: 60%;
+    padding: 50px 0;
+}
+
+.form-content-section h4{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.form-content-section label{
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.form-content-section input::placeholder, .form-content-section textarea::placeholder{
+    color: #8E8E8E;
+}
+
+.form-content-section p{
+    color: #444;
+}
+
+.form-content-section input[type="checkbox"]{
+    border: 1px solid #000 !important;
+}
+
+.form-content-section input::placeholder, .form-content-section textarea::placeholder, .form-content-section p{
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.tier-form button{
+    border: 0 !important;
+    color: #fff !important;
+    background-color: #1E3399 !important;
+}
+
+.error{
+    color: red;
+    font-size: 12px;
+}
+
+/* End Membership Tier  */
+
+/* My Page End  */
+
+
+
+
+/* Login Page */
+.logo {
+    width: 90px;
+}
+
+.login-page {
+    font-family: 'Inter';
+    height: 100vh;
+    background-color: #F8F8F8;
+}  
+
+.login-page-title {
+    background: linear-gradient(90deg, #478DCF 0%, #FF569D 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.login-page-right-side {
+    width: 90%;
+    text-align: center;
+}
+
+.login-photo {
+    width: 75%;
+    height: 610px;
+}
+
+.login-container {
+    background: #FFFFFF;
+    text-align: left;
+    border-radius: 30px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.1);
+    padding: 40px;
+}
+
+.login-form-control::placeholder {
+    color: #d3d3d3;
+}
+
+.login-form-control:focus {
+    box-shadow: none;
+    border-bottom: 2.4px solid #f8cfd9;
+}
+
+.form-check-label {
+    margin-left: 5px;
+}
+
+.login-btn {
+    background-color: #0a4d92;
+    color: white;
+}
+
+.login-btn:hover {
+    background-color:rgb(3, 55, 107);
+    color: white;
+}
+
+.custom-form-control {
+    border: none;
+    border-bottom: 2.4px solid #f8cfd9;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.custom-check-box {
+    border: 2px solid #6c9cc8;
+    border-radius: 4px;
+    width: 1.3em;
+    height: 1.3em;
+}
+
+.custom-check-box:checked {
+    background-color: #6c9cc8;
+    border-color: #6c9cc8;
+}
+
+@media (max-width: 1000px) {
+    .login-page-right-side {
+        text-align: center;
+        margin: auto;
+    }
+}
+
+/* End Login Page */
+
+/* Create Channel Page */
+
+.channel-create-page {
+    font-family: 'Inter';
+    height: 100vh;
+    background-color: #F8F8F8;
+}  
+
+.channel-text {
+    color: #3A3A3A;
+}
+
+.channel-create-text {
+    color: #4A4A4A;
+}
+
+.channel-left-side {
+    width: 58%;
+    text-align: center;
+}
+
+.channel-right-side {
+    height: 100vh;
+    background-color: #F8F8F8;
+}
+
+.channel-form-control {
+    background: #F8F8F8;
+}
+
+.channel-form-control::placeholder {
+    color: #d3d3d3;
+}
+
+.channel-form-control:focus {
+    box-shadow: none;
+    background: none;
+    border-bottom: 2.4px solid #f8cfd9;
+}
+
+.channel-back-btn-group {
+    color: #005CB3;
+}
+
+.channel-back-btn-group img {
+    width: 20px;
+}
+
+/* End Create Channel Page */
+
+/* Social Connect Page */
+
+.social-custom-check-box {
+    border: 1.5px solid #045A84;
+    border-radius: 4px;
+    width: 1.9em;
+    height: 1.9em;
+}
+
+.social-custom-check-box:checked {
+    background-color: #045A84;
+    border-color: #045A84;
+}
+
+.social-connect-text {
+    color: #6A6A6A;
+}
+
+/* End Social Connect Page */
+
+/* Customize Channel */
+
+.form-content-section {
+    width: 60%;
+    padding: 50px 0 0;
+    font-family: Inter;
+    color: #404040;
+}
+
+.customize-page-main-title {
+    color: #404040;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 23.4px */
+}
+
+.customize-page-subtitle {
+    color: #404040;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 130%; /* 18.2px */
+}
+
+.customize-page-text {
+    color: #444;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 130%; /* 18.2px */
+}
+
+.banner-image-box {
+    height: 162px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    border: 1px dashed #000;
+    background: #F7F7F7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-image-box {
+    width: 60%;
+    height: 212px;
+    flex-shrink: 0;
+    border-radius: 3px;
+    border: 1px dashed #000;
+    background: #F7F7F7;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.custom-textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+    resize: vertical;
+    border-radius: 5px;
+    border: 1px solid #8D8D8D;
+}
+
+.custom-textarea:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.custom-form-text-input {
+    border-radius: 5px;
+    border: 1px solid #8D8D8D;  
+}
+
+.custom-cancel-btn {
+    background-color: #EFEFEF;
+}
+
+.photo-size {
+    color: rgba(121, 121, 121, 0.70);
+    font-size: 14px;
+}
+
+/* .banner-upload-btn {
+    border-radius: 21px;
+    background-color: #DADADA;
+}
+
+.banner-upload-btn:hover {
+    background-color: #cdcaca;
+} */
+
+/* End Customize Channel */
