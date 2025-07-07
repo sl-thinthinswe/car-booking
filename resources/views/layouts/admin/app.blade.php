@@ -9,7 +9,7 @@
     <meta name="description" content="fantube">
     <meta name="author" content="fantube">
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/fantube.png')}}">
-    <title>FanTube</title>
+    <title>CarTicket</title>
     <link href="{{asset('css/libs/bootstrap/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>
@@ -18,11 +18,19 @@
 </head>
 
 <body>
-   {{-- @include('layout.header')÷ --}}
-   <div>
-            @yield('content')
+    <div class="container-fluid">
+        <div class="row">
+            @include('layouts.admin.sidebar')
+    
+            <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+                @include('layouts.admin.header')
+    
+                <div class="pt-4">
+                    @yield('content')
+                </div>
+            </main>
+        </div>
     </div>
-
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-3.7.1.min.js') }}"></script>
@@ -42,6 +50,8 @@
                 width: '100%'
             })
         });
+
+        
     </script>
 
     @yield('js')
