@@ -14,15 +14,23 @@
     <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/libs/select2/select-2.min.css') }}" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>
-   {{-- @include('layout.header')÷ --}}
-   <div>
-            @yield('content')
+    <div class="container-fluid">
+        <div class="row">
+            @include('layouts.admin.sidebar')
+    
+            <main class="col-md-10 ms-sm-auto col-lg-10 px-md-4">
+                @include('layouts.admin.header')
+    
+                <div class="pt-4">
+                    @yield('content')
+                </div>
+            </main>
+        </div>
     </div>
-
     <!-- Scripts -->
     <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('js/jquery/jquery-3.7.1.min.js') }}"></script>
@@ -42,6 +50,8 @@
                 width: '100%'
             })
         });
+
+        
     </script>
 
     @yield('js')
