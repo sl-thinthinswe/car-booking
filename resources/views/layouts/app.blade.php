@@ -1,36 +1,53 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+<html lang="en">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="fantube">
+    <meta name="author" content="fantube">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/fantube.png')}}">
+    <title>FanTube</title>
+    <link href="{{asset('css/libs/bootstrap/bootstrap.min.css')}}" rel="stylesheet" />
+    <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>
+    <link href="{{ asset('css/libs/select2/select-2.min.css') }}" rel="stylesheet">
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+</head>
 
-        <!-- Scripts -->
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-    </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @include('layouts.navigation')
+<body>
+   {{-- @include('layout.header')÷ --}}
+   <div>
+            @yield('content')
 
-            <!-- Page Heading -->
-            @if (isset($header))
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endif
+    </div>
+    
+    
+    <!-- Scripts -->
+    <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/jquery/jquery-3.7.1.min.js') }}"></script>
+    <script src="{{ asset('js/select2/select-2.min.js') }}"></script>
+    <script src="{{ asset('js/custom/all.js') }}"></script>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
-        </div>
-    </body>
+    <script>
+        $(document).ready(function () {
+            $('.select2').select2();
+            $('.select2-container--default .select2-selection--single,.select2-selection__arrow').css({
+                height: '40px',
+                textAlign: 'left',
+                paddingTop: '5px',
+                lineHeight: '40px' // Adjust to match the height
+            });
+            $(".select2-container--default").css({
+                width: '100%'
+            })
+        });
+    </script>
+    
+
+    @yield('js')
+    
+</body>
 </html>
