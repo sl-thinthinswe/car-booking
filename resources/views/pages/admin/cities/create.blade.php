@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-2">
     <h2>Add New City</h2>
 
     <form action="{{ route('admin.cities.store') }}" method="POST" class="mt-3">

@@ -45,7 +45,7 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="price_per_seat">Price per Seat ($)</label>
+        <label for="price_per_seat">Price per Seat (MMK)</label>
         <input type="number"
                step="0.01"
                name="price_per_seat"

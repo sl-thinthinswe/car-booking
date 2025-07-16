@@ -9,12 +9,12 @@
     <meta name="description" content="fantube">
     <meta name="author" content="fantube">
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/fantube.png')}}">
-    <title>CarTicket</title>
+    <title>FanTube</title>
     <link href="{{asset('css/libs/bootstrap/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/libs/select2/select-2.min.css') }}" rel="stylesheet">
-
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 
 <body>

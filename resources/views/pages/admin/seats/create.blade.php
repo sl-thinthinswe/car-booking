@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-2">
     <h2>Add New Seat</h2>
 
     <form method="POST" action="{{ isset($seat) ? route('admin.seats.update', $seat->id) : route('admin.seats.store') }}">

@@ -1,13 +1,15 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-2">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>User List</h2>
     </div>
 
     
     @if($users->count() > 0)
+
+        <div class="table-responsive">
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -38,7 +40,7 @@
             @endforeach
             </tbody>
         </table>
-
+        </div>
         {{ $users->links() }}
     @else
         <div class="alert alert-info">No users found.</div>

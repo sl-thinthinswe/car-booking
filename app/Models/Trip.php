@@ -20,9 +20,16 @@ class Trip extends Model
         return $this->belongsTo(Vehicle::class);
     }
 
-public function bookings()
-{
-    return $this->hasMany(Booking::class);
-}
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
+    public function getRouteNameAttribute()
+    {
+        $from = $this->route?->departure?->name;
+        $to = $this->route?->arrival?->name;
+
+        return $from && $to ? "$from → $to" : 'N/A';
+    }
 
 }

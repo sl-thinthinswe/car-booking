@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-2">
     <h2>Add New Trip</h2>
 
     <form method="POST" action="{{ isset($trip) ? route('admin.trips.update', $trip->id) : route('admin.trips.store') }}">
@@ -45,11 +45,13 @@
         </div>
 
         <div class="form-group mb-3">
-            <label for="price_per_seat">Price per Seat ($)</label>
+            <label for="price_per_seat">Price per Seat (MMK)</label>
             <input type="number" step="0.01" name="price_per_seat"
                    class="form-control @error('price_per_seat') is-invalid @enderror"
                    value="{{ old('price_per_seat', $trip->price_per_seat ?? '') }}" required>
-            @error('price_per_seat') <div class="invalid-feedback">{{ $message }}</div> @enderror
+            @error('price_per_seat') 
+                <div class="invalid-feedback">{{ $message }}</div> 
+            @enderror
         </div>
 
         <button type="submit" class="btn btn-primary">{{ isset($trip) ? 'Update' : 'Create' }}</button>

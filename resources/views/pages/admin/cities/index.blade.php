@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-2">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>City List</h2>
         <a href="{{ route('admin.cities.create') }}" class="btn btn-primary">
@@ -13,6 +13,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <div class="tabel-responsive">
     <table class="table table-bordered">
         <thead class="table-light">
             <tr>
@@ -38,6 +39,7 @@
         @endforeach
         </tbody>
     </table>
+    </div>
     {{ $cities->links() }}
 </div>
 @endsection

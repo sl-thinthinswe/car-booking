@@ -1,7 +1,7 @@
 @extends('layouts.admin.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-2">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Trip List</h2>
         <a href="{{ route('admin.trips.create') }}" class="btn btn-primary">
@@ -13,6 +13,7 @@
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
+    <div class="table-responsive">
     <table class="table table-bordered">
         <thead class="table-light">
             <tr>
@@ -31,7 +32,7 @@
                 <td>{{ $trip->route->departure->name ?? '' }} → {{ $trip->route->arrival->name ?? '' }}</td>
                 <td>{{ $trip->vehicle->model }} ({{ $trip->vehicle->license_plate }})</td>
                 <td>{{ $trip->departure_time }}</td>
-                <td>${{ number_format($trip->price_per_seat, 2) }}</td>
+                <td>{{ number_format($trip->price_per_seat) }}MMK</td>
                 <td>
                     <a href="{{ route('admin.trips.edit', $trip->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <form method="POST" action="{{ route('admin.trips.destroy', $trip->id) }}" style="display:inline-block;">
@@ -43,6 +44,7 @@
         @endforeach
         </tbody>
     </table>
+    </div>
     {{ $trips->links() }}
 </div>
 @endsection
