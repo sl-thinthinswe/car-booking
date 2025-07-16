@@ -14,11 +14,14 @@
     <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/libs/select2/select-2.min.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
 </head>
 
 <body>
-    {{-- @include('layouts.admin.header') --}}
+     @include('layouts.customer.header') 
+     
+
    <div>
             @yield('content')
     </div>
@@ -28,6 +31,8 @@
     <script src="{{ asset('js/jquery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/select2/select-2.min.js') }}"></script>
     <script src="{{ asset('js/custom/all.js') }}"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         $(document).ready(function () {
@@ -45,5 +50,8 @@
     </script>
 
     @yield('js')
+    @include('layouts.customer.footer')
+    
+
 </body>
 </html>
