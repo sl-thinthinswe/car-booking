@@ -33,9 +33,10 @@
 <div class="contact-items-wrapper pb-4 mt-5">
     <div class="container">
         <div class="row justify-content-center gy-4">
-
+            
             <!-- Phone Contact Card -->
-            <div class="col-12 col-md-5 d-flex align-items-center bg-cyan-800 shadow-big rounded p-3" style="width: 300px; height: 125px; margin-right: 150px;">  
+            <div class="col-12 col-md-5 d-flex align-items-center shadow rounded p-3"
+                 style="width: 300px; height: 125px; margin-right: 150px; border: 3px solid #0c4a6e; border-radius: 12px;">
                 <!-- Logo Image as Circle -->
                 <img src="{{ asset('images/phone.jpg') }}" alt="Phone Icon"
                     class="rounded-circle border border-2 border-secondary"
@@ -43,27 +44,28 @@
 
                 <!-- Text & Button -->
                 <div class="ms-3">
-                    <div class="fw-bold text-white">Please call us at</div>
+                    <div class="fw-bold text-black">Please call us at</div>
                     <h5 class="fw-bold mt-2">
-                        <a href="tel:09 777 111 811" class="text-decoration-underline text-primary">
-                            09 777 111 811
+                        <a href="tel:09 666 777 998" class="text-decoration-underline text-primary">
+                            09 666 777 998
                         </a>
                     </h5>
                 </div>
             </div>
 
-            <!-- Messenger Contact Card -->
-            <div class="col-12 col-md-5 d-flex align-items-center bg-cyan-800 shadow-big rounded p-3" style="width: 300px; height: 125px;"> 
+            <!-- Email Contact Card -->
+            <div class="col-12 col-md-5 d-flex align-items-center shadow rounded p-3"
+                 style="width: 300px; height: 125px; border: 3px solid #0c4a6e; border-radius: 12px;">
                 <!-- Logo Image as Circle -->
-                <img src="{{ asset('images/messenger.jpg') }}" alt="Messenger Icon"
+                <img src="{{ asset('images/email.jpg') }}" alt="Email Icon"
                     class="rounded-circle border border-2 border-secondary"
                     style="width: 50px; height: 50px;" />
 
                 <!-- Text & Button -->
                 <div class="ms-3">
-                    <div class="fw-bold text-white">We're here to help — Start a chat</div>
-                    <a href="#" target="_blank" class="btn btn-outline-primary mt-2">
-                        Messenger Chat
+                    <div class="fw-bold text-black">Need help? Send us an email</div>
+                    <a href="mailto:support@example.com" class="btn btn-outline-primary mt-2">
+                        Email Support
                     </a>
                 </div>
             </div>
@@ -71,4 +73,6 @@
         </div>
     </div>
 </div>
+
+    
 @endsection
