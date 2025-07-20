@@ -111,17 +111,12 @@
     </div>
 </div>
 
-<!-- Action Buttons -->
-<div class="d-grid gap-3 d-md-flex justify-content-md-end mt-4">
+<div class="d-flex justify-content-end gap-3 mt-4">
     <!-- Back Button with cyan outline -->
-    <button class="btn btn-outline-info">Back</button>
+    <a href="{{ route('seat') }}" class="btn btn-outline-info flex-fill" style="max-width: 120px;">Back</a>
 
     <!-- Continue Button with cyan background -->
-    <button class="btn btn-info text-white">Continue</button>
+    <a href="{{ route('about') }}" class="btn btn-info text-white flex-fill" style="max-width: 120px;">Continue</a>
 </div>
-
-
-
-    
 </div>
 @endsection
