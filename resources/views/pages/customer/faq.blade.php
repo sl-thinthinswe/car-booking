@@ -1,8 +1,8 @@
 @extends('layouts.customer.app')
 
-@section('content')
+@section('title', 'FAQ')
 
-<!-- FAQ Section -->
+@section('content')
 <div class="container my-5">
     <h2 class="text-center mb-4">Frequently Asked Questions</h2>
 
@@ -19,169 +19,38 @@
 
     <!-- Accordion -->
     <div class="accordion" id="faqAccordion">
+        <!-- FAQ ITEM TEMPLATE -->
+        @php
+            $faqs = [
+                ['id' => 'one', 'topic' => 'booking', 'question' => 'What is the process of booking a ticket?', 'answer' => 'Select cities, time, number of seats, then proceed to payment to confirm your booking.'],
+                ['id' => 'two', 'topic' => 'support', 'question' => 'How can I cancel my booking?', 'answer' => 'Visit your booking page or contact customer support. Cancellation fees may apply.'],
+                ['id' => 'three', 'topic' => 'payment', 'question' => 'What payment methods are accepted?', 'answer' => 'Credit cards, debit cards, and mobile payment systems like PayPal are accepted.'],
+                ['id' => 'four', 'topic' => 'booking', 'question' => 'How do I change my seat selection?', 'answer' => 'Go to "My Bookings" or contact support to modify your seat.'],
+                ['id' => 'five', 'topic' => 'booking', 'question' => 'Can I book tickets for multiple passengers?', 'answer' => 'Yes, just select the number of seats during the booking process.'],
+                ['id' => 'six', 'topic' => 'support', 'question' => 'What should I do if I need to modify my booking details?', 'answer' => 'Update through your account or contact support.'],
+                ['id' => 'seven', 'topic' => 'payment', 'question' => 'How do I make a payment for my ticket?', 'answer' => 'After booking, you’ll be redirected to a secure page to complete your payment.'],
+                ['id' => 'eight', 'topic' => 'payment', 'question' => 'Can I get a refund if I cancel my booking?', 'answer' => 'Refunds are possible depending on the cancellation time and fee policy.'],
+                ['id' => 'nine', 'topic' => 'booking', 'question' => 'How do I know if my booking was successful?', 'answer' => 'You\'ll receive a confirmation email with details and ticket number after payment.']
+            ];
+        @endphp
 
-       <!-- FAQ Item 1 -->
-        <div class="accordion-item" data-topic="booking" id="faq-booking">
-<!-- Accordion Wrapper -->
-<div class="accordion" id="faqAccordion">
-
-    <!-- FAQ Item -->
-    <div class="accordion-item" data-topic="booking" id="faq-booking">
-        <h2 class="accordion-header" id="headingOne">
-            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                What is the process of booking a ticket?
-            </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse"
-            aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
-            <div class="accordion-body">
-                Select cities, time, number of seats, then proceed to payment to confirm your booking.
-            </div>
-        </div>
-    </div>
-
-</div>
-
-<!-- Auto Expand Script if URL has #faq-booking -->
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        if (window.location.hash === "#faq-booking") {
-            const collapseEl = document.getElementById("collapseOne");
-            const bsCollapse = new bootstrap.Collapse(collapseEl, {
-                toggle: true
-            });
-            // Optional: smooth scroll into view
-            document.getElementById("faq-booking")?.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-</script>
-
-
-        <!-- FAQ Item 2 -->
-        <div class="accordion-item" data-topic="support">
-            <h2 class="accordion-header" id="headingTwo">
+        @foreach($faqs as $faq)
+        <div class="accordion-item" data-topic="{{ $faq['topic'] }}">
+            <h2 class="accordion-header" id="heading{{ $faq['id'] }}">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                    How can I cancel my booking?
+                        data-bs-target="#collapse{{ $faq['id'] }}" aria-expanded="false"
+                        aria-controls="collapse{{ $faq['id'] }}">
+                    {{ $faq['question'] }}
                 </button>
             </h2>
-            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                 data-bs-parent="#faqAccordion">
+            <div id="collapse{{ $faq['id'] }}" class="accordion-collapse collapse"
+                 aria-labelledby="heading{{ $faq['id'] }}" data-bs-parent="#faqAccordion">
                 <div class="accordion-body">
-                    Visit your booking page or contact customer support. Cancellation fees may apply.
+                    {{ $faq['answer'] }}
                 </div>
             </div>
         </div>
-
-        <!-- FAQ Item 3 -->
-        <div class="accordion-item" data-topic="payment">
-            <h2 class="accordion-header" id="headingThree">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                    What payment methods are accepted?
-                </button>
-            </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    Credit cards, debit cards, and mobile payment systems like PayPal are accepted.
-                </div>
-            </div>
-        </div>
-
-        <!-- Add more items below -->
-
-        <div class="accordion-item" data-topic="booking">
-            <h2 class="accordion-header" id="headingFour">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-                    How do I change my seat selection?
-                </button>
-            </h2>
-            <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    Go to "My Bookings" or contact support to modify your seat.
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" data-topic="booking">
-            <h2 class="accordion-header" id="headingFive">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
-                    Can I book tickets for multiple passengers?
-                </button>
-            </h2>
-            <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    Yes, just select the number of seats during the booking process.
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" data-topic="support">
-            <h2 class="accordion-header" id="headingSix">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
-                    What should I do if I need to modify my booking details?
-                </button>
-            </h2>
-            <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    Update through your account or contact support.
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" data-topic="payment">
-            <h2 class="accordion-header" id="headingSeven">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
-                    How do I make a payment for my ticket?
-                </button>
-            </h2>
-            <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    After booking, you’ll be redirected to a secure page to complete your payment.
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" data-topic="payment">
-            <h2 class="accordion-header" id="headingEight">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight">
-                    Can I get a refund if I cancel my booking?
-                </button>
-            </h2>
-            <div id="collapseEight" class="accordion-collapse collapse" aria-labelledby="headingEight"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    Refunds are possible depending on the cancellation time and fee policy.
-                </div>
-            </div>
-        </div>
-
-        <div class="accordion-item" data-topic="booking">
-            <h2 class="accordion-header" id="headingNine">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapseNine" aria-expanded="false" aria-controls="collapseNine">
-                    How do I know if my booking was successful?
-                </button>
-            </h2>
-            <div id="collapseNine" class="accordion-collapse collapse" aria-labelledby="headingNine"
-                 data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    You'll receive a confirmation email with details and ticket number after payment.
-                </div>
-            </div>
-        </div>
-
+        @endforeach
     </div>
 </div>
 
@@ -199,5 +68,4 @@
         });
     });
 </script>
-
 @endsection

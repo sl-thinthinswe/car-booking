@@ -1,9 +1,10 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Customer\HomeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get("home", function () {
+
+Route::get("/", function () {
     return view("pages.customer.home");
 })->name('home');
 Route::get('/about', function () {

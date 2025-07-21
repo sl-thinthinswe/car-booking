@@ -12,7 +12,7 @@
 
 <div class="container py-4 trip-summary-wrapper">
 
-    <!-- Card Container with Border-4 and mb-4 -->
+    <!-- Card Container -->
     <div class="card shadow-sm border border-4 rounded-3 mb-4">
         <div class="card-body p-3">
 
@@ -31,14 +31,15 @@
                 </div>
             </div>
 
-            <small class="text-muted d-block mb-4">* Arrival times provided are estimates and may be subject to change.</small>
-                        
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" id="fullItinerary">
-                            <label class="form-check-label" for="fullItinerary">Full Itinerary</label>
-                        </div>
+            <small class="text-muted d-block mb-4">* Arrival times are estimates and may be subject to change.</small>
 
-            <!-- Bus & Ticket Info -->
+            <!-- Itinerary Checkbox -->
+            <div class="form-check mb-4">
+                <input class="form-check-input" type="checkbox" id="fullItinerary">
+                <label class="form-check-label" for="fullItinerary">Full Itinerary</label>
+            </div>
+
+            <!-- Car & Ticket Info -->
             <h6 class="fw-bold mb-3">Car & Ticket Details</h6>
             <div class="row small mb-2">
                 <div class="col-6 col-md-4">Car Operator:</div>
@@ -67,7 +68,7 @@
 
             <hr>
 
-            <!-- Notices -->
+            <!-- Travel Notices -->
             <h6 class="fw-bold mb-2">Travel Requirements</h6>
             <ul class="small mb-3 ps-3">
                 <li>NRC and endorsements from Ward Office & Police Station</li>
@@ -77,7 +78,7 @@
 
             <hr>
 
-            <!-- Traveller Info -->
+            <!-- Passenger Info -->
             <h6 class="fw-bold mb-3">Passenger Information</h6>
             <div class="row small mb-2">
                 <div class="col-6 col-md-4">Full Name:</div>
@@ -94,29 +95,33 @@
 
             <hr>
 
-<!-- Special Request Box -->
+            <!-- Special Request -->
+            <div class="card-header bg-light fw-bold">
+                Special Request to Operator
+            </div>
 
-    <div class="card-header bg-light fw-bold">
-        Special Request to Operator
+            <div class="card-body border-top px-3 py-2">
+                <textarea class="form-control" name="special_request" rows="3" placeholder="Optional request..."></textarea>
+            </div>
+
+            <hr class="my-3">
+
+            <!-- Session ID -->
+            <div class="text-start px-3">
+                <span class="text-muted small">Session ID: <strong>1342088</strong></span>
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- Horizontal Line -->
-<hr class="my-3">
+    <!-- Action Buttons -->
+    <div class="d-flex justify-content-end gap-3 mt-4">
+        <!-- Back Button -->
+        <a href="{{ route('select') }}" class="btn btn-outline-info flex-fill" style="max-width: 120px;">Back</a>
 
-<!-- Session ID Box -->
-
-    <div class="card-body p-3 text-start">
-        <span class="text-muted small">Session ID: <strong>1342088</strong></span>
+        <!-- Continue to Payment -->
+        <a href="{{ route('payment') }}" class="btn btn-info text-white flex-fill" style="max-width: 180px;">
+            Continue to Payment
+        </a>
     </div>
-</div>
-
-<div class="d-flex justify-content-end gap-3 mt-4">
-    <!-- Back Button with cyan outline -->
-    <a href="{{ route('seat') }}" class="btn btn-outline-info flex-fill" style="max-width: 120px;">Back</a>
-
-    <!-- Continue Button with cyan background -->
-    <a href="{{ route('about') }}" class="btn btn-info text-white flex-fill" style="max-width: 120px;">Continue</a>
-</div>
 </div>
 @endsection

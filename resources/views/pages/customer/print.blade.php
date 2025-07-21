@@ -54,7 +54,6 @@
                     <i class="bi bi-search"></i> Retrieve Booking
                 </button>
             </div>
-
         </form>
     </div>
 </div>
