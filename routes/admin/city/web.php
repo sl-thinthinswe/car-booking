@@ -20,20 +20,24 @@ use App\Models\Vehicle;
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 
-Route::prefix('admin')->name('admin.')->group(function () {
-Route::resource('/', DashboardController::class);
-Route::resource('users', UserController::class);
-Route::resource('cities', CityController::class);
-Route::resource('routes', RouteController::class);
-Route::resource('vehicles', VehicleController::class);
-Route::resource('seats', SeatController::class);
-Route::resource('trips', TripController::class);
-Route::resource('bookings', BookingController::class);
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::resource('users', UserController::class);
+    Route::resource('cities', CityController::class);
+    Route::resource('routes', RouteController::class);
+    Route::resource('vehicles', VehicleController::class);
+    Route::resource('seats', SeatController::class);
+    Route::resource('trips', TripController::class);
+    Route::resource('bookings', BookingController::class);
+    Route::resource('booking_seats', BookingSeatController::class);
+
     Route::patch('bookings/{booking}/status', [BookingController::class, 'updateStatus'])
-    ->name('bookings.updateStatus');
+        ->name('bookings.updateStatus');
+
     Route::get('bookings/{booking}/ticket', [BookingController::class, 'ticket'])
-    ->name('bookings.ticket');
+        ->name('bookings.ticket');
+
     Route::post('bookings/{booking}/send-email', [BookingController::class, 'sendEmail'])
-    ->name('bookings.sendEmail');
-Route::resource('booking_seats',BookingSeatController::class);
+        ->name('bookings.sendEmail');
 });

@@ -37,32 +37,46 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //
+        $user = User::with('bookings')->findOrFail($id);
+        return view('pages.admin.users.show', compact('user'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('pages.admin.users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
-    {
-        //
+    public function update(Request $request, $id)
+    {   
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255|unique:users,email,' . $id,
+            'phone' => 'required|string|max:20|unique:users,phone,' . $id,
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update($request->only(['name', 'email', 'phone'])); 
+
+        return redirect()->route('admin.users.index')->with('success', 'User updated.');
     }
+
+    
+    
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        User::findOrFail($id);
+        return redirect()->route('admin.user.index')->with('success','Deleted sucessfully');
     }
 }

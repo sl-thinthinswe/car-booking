@@ -74,8 +74,7 @@
                 </a>
             </td>
         </tr>
-    @endforeach
-    
+    @endforeach    
         @else
             <tr>
                 <td colspan="8" class="text-center">No bookings found.</td>

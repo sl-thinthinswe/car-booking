@@ -32,5 +32,6 @@ class DashboardController extends Controller
             'totalUsers',
             'totalRoutes'
         ));
+        
     }
 }

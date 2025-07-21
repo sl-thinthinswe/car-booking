@@ -3,7 +3,6 @@
 use App\Http\Controllers\Customer\HomeController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::get("/", function () {
     return view("pages.customer.home");
 })->name('home');
