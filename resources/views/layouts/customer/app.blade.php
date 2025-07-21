@@ -9,7 +9,7 @@
     <meta name="description" content="fantube">
     <meta name="author" content="fantube">
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/fantube.png')}}">
-    <title>FanTube</title>
+    <title>SeatSnap</title>
     <link href="{{asset('css/libs/bootstrap/bootstrap.min.css')}}" rel="stylesheet" />
     <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>

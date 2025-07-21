@@ -26,7 +26,7 @@
 
     <!-- Right Content (Booking Form) -->
     <div class="flex-1 max-w-md mx-auto w-full bg-white rounded-lg p-6 shadow-lg">
-      <form action="{{ route('customer.bookings.store') }}" method="POST" class="space-y-6">
+      <form action="#" method="GET" class="space-y-6">
         @csrf
         <div class="flex border-b border-gray-300">
           <button type="button" class="flex-1 text-cyan-600 font-bold border-b-2 border-cyan-600 px-4 py-2">Express Car</button>
@@ -38,12 +38,11 @@
 
         <select name="from" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-600" required>
           <option value="" disabled selected>From</option>
-          <!-- Options here -->
         </select>
 
         <select name="to" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-600" required>
-          <option value="" disabled selected>To</option>
-          <!-- Options here -->
+        <option value="" disabled selected>To</option>
+
         </select>
 
         <input type="date" name="travel_date" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-600" required />
