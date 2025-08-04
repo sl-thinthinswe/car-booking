@@ -1,4 +1,4 @@
-@extends('layouts.customer.app')
+{{-- @extends('layouts.customer.app')
 
 @section('content')
 <div class="container py-4">
@@ -218,7 +218,7 @@
     .border-cyan-900 {
         border-color: #0e7490 !important;
     }
-    .btn-cyan {
+    .btan-cyan {
         background-color: #0e7490 !important;
         color: white !important;
         border: none !important;
@@ -249,4 +249,4 @@
     }
 </style>
 
-@endsection
+@endsection --}}

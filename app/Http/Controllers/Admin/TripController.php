@@ -41,12 +41,12 @@ class TripController extends Controller
             'departure_time' => 'required|date|after_or_equal:now',
             'price_per_seat' => 'required|numeric|min:0',
         ]);
-    
+
         Trip::create($request->all());
-    
+
         return redirect()->route('admin.trips.index')->with('success', 'Trip created successfully.');
     }
-    
+
 
     /**
      * Display the specified resource.
@@ -77,9 +77,9 @@ class TripController extends Controller
             'departure_time' => 'required|date|after_or_equal:now',
             'price_per_seat' => 'required|numeric|min:0',
         ]);
-    
+
         $trip->update($request->all());
-    
+
         return redirect()->route('admin.trips.index')->with('success', 'Trip updated successfully.');
     }
 

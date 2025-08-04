@@ -1,67 +1,69 @@
 @extends('layouts.customer.app')
 
-
 @section('content')
 <div class="container py-4">
     <div class="row g-4">
         <!-- Left Column - Traveller Form -->
         <div class="col-lg-8">
             <div class="card shadow-sm">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Traveller Information</h5>
+                <div class=" bg-white">
+                    
                 </div>
                 <div class="card-body pt-0">
-                    <form id="travellerForm" action="{{ route('payment') }}"  method="POST" novalidate class="mb-3">
-                        
+                    <form id="travellerForm" action="{{ route('payment') }}"  method="GET" class="mb-3">
                         @csrf
+                        <!-- Traveller Name -->
                         <div class="mb-4">
                             <label for="name" class="form-label">Traveller Name <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="name" name="name" required>
                             <div class="invalid-feedback">Please enter traveller name</div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Gender <span class="text-danger">*</span></label>
-                            <div class="d-flex gap-3">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" id="male" value="male" required>
-                                    <label class="form-check-label" for="male">Male</label>
-                                </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="gender" id="female" value="female">
-                                    <label class="form-check-label" for="female">Female</label>
-                                </div>
-                            </div>
-                            <div class="invalid-feedback">Please select gender</div>
-                        </div>
+                       
 
-                        <div class="mb-3">
-                            <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-                            <input type="tel" class="form-control" id="phone" name="phone" required>
-                            <div class="invalid-feedback">Please enter phone number</div>
-                        </div>
+<!-- Phone -->
+<div class="mb-3">
+    <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+    <input 
+        type="tel" 
+        class="form-control" 
+        id="phone" 
+        name="phone" 
+        required
+        pattern="09\d{9}"
+        maxlength="11"
+        minlength="11"
+        placeholder="09XXXXXXXXX"
+    >
+    <div class="invalid-feedback">
+        Please enter a valid phone number starting with 09 and 11 digits long.
+    </div>
+</div>
 
+                        <!-- Email -->
                         <div class="mb-3">
-                            <label for="email" class="form-label">Email <span class="text-muted">(optional)</span></label>
+                            <label for="email" class="form-label">Email <span class="text-muted"></span></label>
                             <input type="email" class="form-control" id="email" name="email">
                         </div>
-
+                        <!-- Special Request -->
                         <div class="mb-4">
-                            <label for="request" class="form-label">Special Request <span class="text-muted">(optional)</span></label>
+                            <label for="request" class="form-label">Special Request <span class="text-muted"></span></label>
                             <textarea class="form-control" id="request" name="request" rows="2"></textarea>
                         </div>
 
-                        <button type="submit" id="submitBtn" class="btn btn-primary w-100 mt-2 py-2" disabled>
-                            Proceed to Payment
-                        </button>
+                        <!-- Enhanced Submit Button -->
+                        <button type="submit" id="submitBtn" class="btn bg-cyan-500 w-100 mt-2 py-2">
+                    Proceed to Payment
+                </button>
+
                     </form>
                 </div>
             </div>
         </div>
 
-        <!-- Right Column - Trip Summary -->
+        <!-- Right Column - Trip Summary and Pricing (unchanged) -->
         <div class="col-lg-4">
-            <!-- Trip Summary -->
+            <!-- Trip Summary Card -->
             <div class="card shadow-sm mb-4 border-start border-3 border-primary">
                 <div class="card-header bg-white">
                     <h5 class="mb-0">Trip Summary</h5>
@@ -98,7 +100,7 @@
                 </div>
             </div>
 
-            <!-- Pricing Details -->
+            <!-- Pricing Details Card -->
             <div class="card shadow-sm mb-4">
                 <div class="card-header bg-white">
                     <h6 class="mb-0">Pricing Details</h6>
@@ -148,33 +150,28 @@
 
 @push('scripts')
 <script>
-    (() => {
-        'use strict';
-        const form = document.getElementById('travellerForm');
-        const submitBtn = document.getElementById('submitBtn');
+(() => {
+    const form = document.getElementById('travellerForm');
+    const submitBtn = document.getElementById('submitBtn');
 
-        const validateForm = () => {
-            const name = form.name.value.trim();
-            const phone = form.phone.value.trim();
-            const gender = form.querySelector('input[name="gender"]:checked');
+    const validateForm = () => {
+        const name = form.name.value.trim();
+        const phone = form.phone.value.trim();
+        const gender = form.querySelector('input[name="gender"]:checked');
 
-            if (name && phone && gender) {
-                submitBtn.disabled = false;
-            } else {
-                submitBtn.disabled = true;
-            }
-        };
+        submitBtn.disabled = !(name && phone && gender);
+    };
 
-        form.addEventListener('input', validateForm);
-        form.addEventListener('change', validateForm);
+    form.addEventListener('input', validateForm);
+    form.addEventListener('change', validateForm);
 
-        form.addEventListener('submit', function(event) {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            form.classList.add('was-validated');
-        }, false);
-    })();
+    form.addEventListener('submit', function (event) {
+        if (!form.checkValidity()) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+    });
+})();
 </script>
 @endpush

@@ -24,9 +24,13 @@
       </div>
     </div>
 
-    <!-- Right Content (Booking Form) -->
+    <!-- Right Content -->
     <div class="flex-1 max-w-md mx-auto w-full bg-white rounded-lg p-6 shadow-lg">
+<<<<<<< HEAD
+      <form action="{{ route('trips.search') }}" method="GET" class="space-y-6">
+=======
       <form action="#" method="POST" class="space-y-6">
+>>>>>>> 1f37d147dcdd0643658e35a9450b6c7c7e86a61f
         @csrf
         <div class="flex border-b border-gray-300">
           <button type="button" class="flex-1 text-cyan-600 font-bold border-b-2 border-cyan-600 px-4 py-2">Express Car</button>
@@ -35,28 +39,33 @@
             <span class="text-xs bg-red-500 text-white px-1 rounded ml-2">new</span>
           </button>
         </div>
-
-        <select name="from" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-600" required>
+        
+   <select name="from" class="w-full border px-3 py-2 rounded" required>
           <option value="" disabled selected>From</option>
+          @foreach ($cities as $city)
+            <option value="{{ $city->id }}">{{ $city->name }}</option>
+          @endforeach
         </select>
 
-        <select name="to" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-600" required>
-        <option value="" disabled selected>To</option>
-
+        <select name="to" class="w-full border px-3 py-2 rounded" required>
+          <option value="" disabled selected>To</option>
+          @foreach ($cities as $city)
+            <option value="{{ $city->id }}">{{ $city->name }}</option>
+          @endforeach
         </select>
 
-        <input type="date" name="travel_date" class="w-full border border-gray-300 rounded px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-600" required />
+        <input type="date" name="travel_date" class="w-full border px-3 py-2 rounded" required />
 
         <div>
           <label for="seatCount" class="block mb-2 font-semibold text-gray-700">Seat</label>
-          <div class="flex items-center border border-gray-300 rounded overflow-hidden w-max">
-            <button type="button" id="decrement" class="px-4 py-2 text-xl hover:bg-gray-100 transition select-none">−</button>
-            <input type="text" id="seatCount" name="numberOfSeats" value="1" readonly class="w-14 text-center py-2 border-l border-r border-gray-300 focus:outline-none" />
-            <button type="button" id="increment" class="px-4 py-2 text-xl hover:bg-gray-100 transition select-none">+</button>
+          <div class="flex items-center border rounded w-max">
+            <button type="button" id="decrement" class="px-4 py-2">−</button>
+            <input type="text" id="seatCount" name="numberOfSeats" value="1" readonly class="w-14 text-center py-2 border-l border-r" />
+            <button type="button" id="increment" class="px-4 py-2">+</button>
           </div>
         </div>
 
-        <button type="submit" class="w-full bg-cyan-700 hover:bg-cyan-800 transition text-white font-semibold rounded py-3 mt-4">
+        <button type="submit" class="w-full bg-cyan-700 text-white font-semibold rounded py-3 mt-4">
           Search
         </button>
       </form>
@@ -94,16 +103,21 @@
 <script>
   document.getElementById('increment').addEventListener('click', () => {
     const seatInput = document.getElementById('seatCount');
-    seatInput.value = parseInt(seatInput.value) + 1;
+    let current = parseInt(seatInput.value);
+    if (current < 4) {
+      seatInput.value = current + 1;
+    }
   });
 
   document.getElementById('decrement').addEventListener('click', () => {
     const seatInput = document.getElementById('seatCount');
-    if (parseInt(seatInput.value) > 1) {
-      seatInput.value = parseInt(seatInput.value) - 1;
+    let current = parseInt(seatInput.value);
+    if (current > 1) {
+      seatInput.value = current - 1;
     }
   });
 </script>
+
 
 <!-- We Accept Section -->
 <section class="bg-white py-8 px-4 sm:px-8 lg:px-16">
@@ -129,6 +143,7 @@
           ['title' => 'Yangon - Bagan', 'desc' => '', 'image' => 'images/Bagan.jpg', 'link' => '#'],
           ['title' => 'Yangon - Naypyidaw (Bawga)', 'desc' => '', 'image' => 'images/Nay.jpg', 'link' => '#'],
           ['title' => 'Yangon - Mawlamyine', 'desc' => '', 'image' => 'images/Maw.jpg', 'link' => '#'],
+          
         ];
       @endphp
 
@@ -148,5 +163,4 @@
     </div>
   </div>
 </section>
-
 @endsection
