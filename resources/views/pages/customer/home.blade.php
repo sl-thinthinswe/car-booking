@@ -26,7 +26,11 @@
 
     <!-- Right Content -->
     <div class="flex-1 max-w-md mx-auto w-full bg-white rounded-lg p-6 shadow-lg">
+<<<<<<< HEAD
       <form action="{{ route('trips.search') }}" method="GET" class="space-y-6">
+=======
+      <form action="#" method="POST" class="space-y-6">
+>>>>>>> 1f37d147dcdd0643658e35a9450b6c7c7e86a61f
         @csrf
         <div class="flex border-b border-gray-300">
           <button type="button" class="flex-1 text-cyan-600 font-bold border-b-2 border-cyan-600 px-4 py-2">Express Car</button>

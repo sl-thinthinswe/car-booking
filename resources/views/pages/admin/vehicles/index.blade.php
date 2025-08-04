@@ -14,43 +14,51 @@
     @endif
 
     <div class="table-responsive">
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>License Plate</th>
-                <th>Model</th>
-                <th>Seat Count</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if($vehicles->count())
-            @foreach($vehicles as $index => $vehicle)
+        <table class="table table-bordered text-center align-middle">
+            <thead class="table-light">
                 <tr>
-                    <td>{{ $vehicles->firstItem() + $index }}</td>
-                    <td>{{ $vehicle->license_plate }}</td>
-                    <td>{{ $vehicle->model }}</td>
-                    <td>{{ $vehicle->seat_count }}</td>
-                    <td>
-                        <a href="{{ route('admin.vehicles.edit', $vehicle->id) }}" class="btn btn-sm btn-warning">Edit</a>
-        
-                        <form action="{{ route('admin.vehicles.destroy', $vehicle->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure?');">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
-                    </td>
+                    <th>ID</th>
+                    <th>License Plate</th>
+                    <th>Model</th>
+                    <th>Seat Count</th>
+                    <th>Actions</th>
                 </tr>
-            @endforeach
-        @else
-            <tr>
-                <td colspan="5" class="text-center">No vehicles found.</td>
-            </tr>
-        @endif        
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @if($vehicles->count())
+                    @foreach($vehicles as $index => $vehicle)
+                        <tr>
+                            <td>{{ $vehicles->firstItem() + $index }}</td>
+                            <td>{{ $vehicle->license_plate }}</td>
+                            <td>{{ $vehicle->model }}</td>
+                            <td>{{ $vehicle->seat_count }}</td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ route('admin.vehicles.edit', $vehicle->id) }}" class="btn btn-sm btn-warning" title="Edit">
+                                        <i class="bi bi-pencil-square"></i>
+                                    </a>
+                                    <form action="{{ route('admin.vehicles.destroy', $vehicle->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Are you sure?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger" title="Delete">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                @else
+                    <tr>
+                        <td colspan="5" class="text-center">No vehicles found.</td>
+                    </tr>
+                @endif        
+            </tbody>
+        </table>
     </div>
-{{ $vehicles->links() }}
+
+    <div class="d-flex justify-content-center mt-3">
+        {{ $vehicles->links() }}
+    </div>
 </div>
 @endsection
