@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Booking;
 use App\Mail\ConfirmedMail;
 use Illuminate\Http\Request;
 use App\Mail\CancellationMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\NewBookingNotification;
 
 
 class BookingController extends Controller
@@ -57,7 +59,16 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $booking = Booking::create([
+            // booking fields
+        ]);
+        
+        // Get Admin User(s)
+        $admins = User::where('name', 'Admin')->get(); // update according to your structure
+        
+        foreach ($admins as $admin) {
+            $admin->notify(new NewBookingNotification($booking));
+        }
     }
 
     /**
@@ -85,7 +96,6 @@ class BookingController extends Controller
     public function updateStatus(Request $request, $id)
         {
             $booking = Booking::findOrFail($id);
-            $previousStatus = $booking->status;
             $booking->status = $request->status;
             $booking->save();
 
@@ -105,30 +115,29 @@ class BookingController extends Controller
         //
     }
     public function sendEmail($id)
-{
-    $booking = Booking::with(['user', 'trip.route.departure', 'trip.route.arrival'])->findOrFail($id);
+    {
+        $booking = Booking::with(['user', 'trip.route.departure', 'trip.route.arrival'])->findOrFail($id);
 
-    if (!$booking->user || !$booking->user->email) {
-        return back()->withErrors(['Email address is missing for this user.']);
+        if (!$booking->user || !$booking->user->email) {
+            return back()->withErrors(['Email address is missing for this user.']);
+        }
+        
+        $ticket = [
+            'name' => $booking->user->name,
+            'email' => $booking->user->email,
+            'from' => $booking->trip->route->departure->name ?? 'N/A',
+            'to' => $booking->trip->route->arrival->name ?? 'N/A',
+            'date' => $booking->trip->departure_date ?? now()->format('Y-m-d'),
+            'time' => $booking->trip->departure_time,
+            'seat' => $booking->number_of_seat,
+            'total' => $booking->total_amount,
+            'booking_time' => $booking->booking_time,
+        ];
+
+        Mail::to($ticket['email'])->send(new ConfirmedMail($ticket));
+        $booking->status = 'confirmed';
+        $booking->save();
+        return back()->with('success', 'Confirmation email sent successfully!');
     }
-
-    
-    $ticket = [
-        'name' => $booking->user->name,
-        'email' => $booking->user->email,
-        'from' => $booking->trip->route->departure->name ?? 'N/A',
-        'to' => $booking->trip->route->arrival->name ?? 'N/A',
-        'date' => $booking->trip->departure_date ?? now()->format('Y-m-d'),
-        'time' => $booking->trip->departure_time,
-        'seat' => $booking->number_of_seat,
-        'total' => $booking->total_amount,
-        'booking_time' => $booking->booking_time,
-    ];
-
-    Mail::to($ticket['email'])->send(new ConfirmedMail($ticket));
-    $booking->status = 'confirmed';
-    $booking->save();
-    return back()->with('success', 'Confirmation email sent successfully!');
-}
 
 }

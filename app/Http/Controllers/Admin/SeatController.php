@@ -45,7 +45,6 @@ class SeatController extends Controller
 
         $vehicle = Vehicle::findOrFail($request->vehicle_id);
 
-        // Count how many seats already assigned to vehicle
         $currentSeatCount = $vehicle->seats()->count();
 
         if ($currentSeatCount >= $vehicle->seat_count) {
