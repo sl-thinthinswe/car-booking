@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\User;
 use App\Models\Booking;
 use App\Mail\ConfirmedMail;
 use Illuminate\Http\Request;
 use App\Mail\CancellationMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\NewBookingNotification;
 
 
 class BookingController extends Controller
@@ -57,7 +59,16 @@ class BookingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $booking = Booking::create([
+            // booking fields
+        ]);
+        
+        // Get Admin User(s)
+        $admins = User::where('name', 'Admin')->get(); // update according to your structure
+        
+        foreach ($admins as $admin) {
+            $admin->notify(new NewBookingNotification($booking));
+        }
     }
 
     /**

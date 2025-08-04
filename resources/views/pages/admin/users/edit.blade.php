@@ -13,7 +13,7 @@
         <input type="text" name="email" value="{{ $user->email }}" class="form-control" required>
     </div>
     <div class="mb-3">
-        <label for="phone" class="form-label">Phon</label>
+        <label for="phone" class="form-label">Phone</label>
         <input type="text" name="phone" value="{{ $user->phone }}" class="form-control" required>
     </div>
      <button class="btn btn-primary">Update</button>

@@ -1,16 +1,17 @@
 <?php
 
+use App\Models\Vehicle;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Admin\SeatController;
 use App\Http\Controllers\Admin\TripController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\RouteController;
 use App\Http\Controllers\Admin\BookingController;
-use App\Http\Controllers\Admin\BookingSeatController;
 use App\Http\Controllers\Admin\VehicleController;
 use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\SeatController;
-use App\Http\Controllers\Admin\UserController;
-use App\Models\Vehicle;
+use App\Http\Controllers\Admin\BookingSeatController;
+use App\Http\Controllers\Admin\NotificationController;
 
 // Route::get("/cities", function () {
 //     return view("pages.admin.cities.index");
@@ -40,4 +41,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::post('bookings/{booking}/send-email', [BookingController::class, 'sendEmail'])
         ->name('bookings.sendEmail');
+        
+    Route::post('notifications/read-all', [NotificationController::class, 'markAllRead'])
+        ->name('notifications.markAllRead');
 });

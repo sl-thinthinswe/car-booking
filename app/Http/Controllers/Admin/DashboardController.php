@@ -21,7 +21,7 @@ class DashboardController extends Controller
         $availableVehicles = Vehicle::count();
         $totalUsers = User::where('name', '!=', 'Admin')->count();
         $totalRoutes = Route::count();
-    
+
         return view('pages.admin.index', compact(
             'totalBookings',
             'confirmedBookings',

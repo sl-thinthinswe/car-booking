@@ -34,30 +34,30 @@ class BookingSeatController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-{
-    $request->validate([
-        'booking_id' => 'required|exists:bookings,id',
-        'seat_ids' => 'required|array|min:1',
-        'seat_ids.*' => 'exists:seats,id',
-    ]);
+    {
+        $request->validate([
+            'booking_id' => 'required|exists:bookings,id',
+            'seat_ids' => 'required|array|min:1',
+            'seat_ids.*' => 'exists:seats,id',
+        ]); 
 
-    $booking = Booking::findOrFail($request->booking_id);
+        $booking = Booking::findOrFail($request->booking_id);
 
-    // Custom validation: count of selected seats must match number_of_seat
-    if (count($request->seat_ids) != $booking->number_of_seat) {
-        return back()->withErrors(['seat_ids' => 'The number of selected seats must match the number of seats in the booking ('.$booking->number_of_seat.').'])->withInput();
-    }
+        // Custom validation: count of selected seats must match number_of_seat
+        if (count($request->seat_ids) != $booking->number_of_seat) {
+            return back()->withErrors(['seat_ids' => 'The number of selected seats must match the number of seats in the booking ('.$booking->number_of_seat.').'])->withInput();
+        }
 
-    foreach ($request->seat_ids as $seatId) {
-        BookingSeat::create([
-            'booking_id' => $booking->id,
-            'trip_id' => $booking->trip_id,
-            'seat_id' => $seatId,
-        ]);
-    }
+        foreach ($request->seat_ids as $seatId) {
+            BookingSeat::create([
+                'booking_id' => $booking->id,
+                'trip_id' => $booking->trip_id,
+                'seat_id' => $seatId,
+            ]);
+        }
 
-    return redirect()->route('admin.booking_seats.index')->with('success', 'Booking seats added successfully.');
-}
+        return redirect()->route('admin.booking_seats.index')->with('success', 'Booking seats added successfully.');
+    } 
 
     /**
      * Display the specified resource.
