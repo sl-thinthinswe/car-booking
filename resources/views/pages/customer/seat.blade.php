@@ -7,17 +7,13 @@
         <div class="col-lg-8">
             <div class="card shadow-sm">
                 <div class="card-header bg-white">
-                    <h4 class="mb-0">Please select up to 4 Seat(s)</h4>
+                    <h4 class="mb-0">Please select up to {{ $numberOfSeats }} Seat(s)</h4>
                 </div>
                 <div class="card-body">
-                    <div class="d-flex justify-content-center mb-4">
-                        <div class="border border-2 border-secondary rounded-3 p-3 bg-light">Driver</div>
-                    </div>
-
                     <!-- Seat Layout Container -->
                     <div class="overflow-auto" style="max-width: 100%;">
-                        <div id="seatContainer" class="d-flex flex-column align-items-center gap-3">
-                            <!-- Seat rows will be injected here -->
+                        <div id="seatContainer" class="seat-grid">
+                            <!-- Seat rows will be injected here dynamically -->
                         </div>
                     </div>
                 </div>
@@ -27,31 +23,15 @@
         <!-- Right Column - Trip Summary + Seat Confirm Form -->
         <div class="col-lg-4">
             <!-- Trip Summary -->
-            <div class="card shadow-sm border-start border-3 border-primary mb-4">
+            <div class="card shadow-sm border-start border-3 mb-4">
                 <div class="card-header bg-white">
                     <h5 class="mb-0">Trip Summary</h5>
                 </div>
                 <div class="card-body">
-                    <li class="list-group-item text-center bg-light mb-3">
-                        <div class="fw-semibold text-primary">Naypyitaw (Bawga) ⇨ Mandalay</div>
-                    </li>
-                    <div class="mb-3">
-                        <div class="fw-bold mb-1">Stopovers</div>
-                        <ul class="list-unstyled mb-0 ps-3">
-                            <li class="text-muted">Naypyitaw (Myoma)</li>
-                        </ul>
-                    </div>
-                    <div class="mb-3">
-                        <div><strong>Pickup Time:</strong> Jul 15, 06:30 PM</div>
-                        <div><strong>Departure:</strong> Jul 15, 05:30 PM</div>
-                        <div><strong>Arrival:</strong> Jul 16, 06:00 AM</div>
-                        <small class="text-muted d-block mt-2">* Arrival times are estimates and may change.</small>
-                    </div>
-                    <hr>
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="fullItinerary">
-                        <label class="form-check-label" for="fullItinerary">Show full itinerary</label>
-                    </div>
+                    <p><strong>From:</strong> {{ $trip->route->departure->name }}</p>
+                    <p><strong>To:</strong> {{ $trip->route->arrival->name }}</p>
+                    <p><strong>Departure Time:</strong> {{ \Carbon\Carbon::parse($trip->departure_time)->format('Y-m-d h:i A') }}</p>
+                    <p><strong>Seat:</strong> {{ $numberOfSeats ?? 'Not selected' }}</p>
                 </div>
             </div>
 
@@ -63,27 +43,27 @@
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
                         <li class="list-group-item text-center bg-light">
-                            <div class="fw-semibold text-primary">Naypyitaw (Bawga) ⇨ Mandalay</div>
+                            <div class="fw-semibold text-black">{{ $trip->route->departure->name }} ⇨ {{ $trip->route->arrival->name }}</div>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
-                            <span class="text-muted">Bus Operator</span>
-                            <span class="fw-medium">Express</span>
+                            <span class="text-muted">Operator</span>
+                            <span class="fw-medium">SeatSnap</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
-                            <span class="text-muted">Bus Type</span>
-                            <span class="fw-medium">Standard</span>
+                            <span class="text-muted">Car Type</span>
+                            <span class="fw-medium">{{ $trip->vehicle->model }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span class="text-muted">Unit Ticket Price</span>
-                            <span>MMK 17,000</span>
+                            <span>MMK {{ number_format($trip->price_per_seat) }}</span>
                         </li>
                         <li class="list-group-item d-flex justify-content-between">
                             <span class="text-muted">Number of Seats</span>
-                            <span id="selectedSeatCount">0 seat</span>
+                            <span id="selectedSeatCount">{{ $numberOfSeats }} seat{{ $numberOfSeats > 1 ? 's' : '' }}</span>
                         </li>
-                        <li class="list-group-item d-flex justify-content-between bg-primary text-white fw-bold">
+                        <li class="list-group-item d-flex justify-content-between bg-cyan-500 text-white fw-bold">
                             <span>Total Ticket Price</span>
-                            <span id="totalPrice">MMK 0</span>
+                            <span id="totalPrice">MMK {{ number_format($trip->price_per_seat * $numberOfSeats) }}</span>
                         </li>
                     </ul>
                 </div>
@@ -95,35 +75,172 @@
                 <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
                     @for($i = 1; $i <= 4; $i++)
                         <div id="seatBox{{ $i }}"
-                             class="seat-box px-3 py-2 bg-light text-primary fw-semibold small"
-                             style="min-width: 80px; text-align: center; display: none;"></div>
+                             class="seat-box px-3 py-2 bg-light text-black fw-semibold small"
+                             style="min-width: 80px; text-align: center; display: none; color: black;"></div>
                         <input type="hidden" name="selected_seats[]" id="seatInput{{ $i }}">
                     @endfor
                 </div>
-                <button type="submit" id="submitBtn" class="btn btn-primary w-100 mt-2 py-2" disabled>
+                <button type="submit" id="submitBtn" class="btn bg-cyan-500 w-100 mt-2 py-2">
                     Continue to Traveller Info
                 </button>
             </form>
+
+            <!-- Back Button under the form -->
+            <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+                <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">
+                    ← Back to
+                </a>
+            </div>
         </div>
     </div>
 </div>
-
 <style>
     .seat-box {
-        border: 2px dotted #0d6efd;
+        border: 2px dotted #06b6d4; 
         border-radius: 8px;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.3s ease;
+        margin: 2px;
+    }
+    .bg-cyan-500 {
+        background-color: #06b6d4;
+    }
+
+    .seat-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 3cm); 
+        gap: 5px;
+        margin: 10px;
+        justify-items: center;
+        align-items: center;
+        justify-content: center;  
+    }  
+
+    .seat-row {
+        display: contents;
+    }
+
+    .aisle {
+        grid-column: 2 / 3;
+        width: 20px;
+        height: 60px;
+        background-color: #f8f9fa;
+    }
+
+    .back-row {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 5px;
+        margin-top: 15px;
+        padding-top: 15px;
+        border-top: 1px dashed #eee;
+    }
+
+    .driver-area {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .seat-box.selected {
+        background-color: #06b6d4;
+        color: white;
+        border-color: #06b6d4;
+        transform: scale(1.05);
+        
+    }
+
+    .seat-box.unavailable {
+        background-color: #e0e0e0;
+        color: #999;
+        cursor: not-allowed;
+        border-color: #ccc;
+    }
+
+    .seat-box:hover:not(.unavailable):not(.selected) {
+        background-color: #f0f0f0;
     }
 </style>
 
 <script>
-    const seatContainer = document.getElementById("seatContainer");
-    const totalSeats = 32;
-    const seatsPerRow = 4;
-    const rowLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const maxSelection = 4;
+    const maxSelection = {{ $numberOfSeats ?? 1 }};  
     const selectedSeats = [];
     const submitBtn = document.getElementById("submitBtn");
+    const seats = @json($seats);
+    const unavailableSeats = @json($unavailableSeats ?? []);
 
+    // Create a seat element
+    function createSeatElement(seat) {
+        const seatLabel = seat.seat_number;
+        const seatElement = document.createElement("div");
+        seatElement.textContent = seatLabel;
+        seatElement.className = "seat-box";
+        seatElement.dataset.seat = seatLabel;
+
+        // Mark unavailable seats
+        if (unavailableSeats.includes(seatLabel)) {
+            seatElement.classList.add("unavailable");
+            return seatElement;
+        }
+
+        // Add click event
+        seatElement.addEventListener("click", function() {
+            const seatIndex = selectedSeats.indexOf(seatLabel);
+
+            if (seatIndex !== -1) {
+                // Deselect
+                selectedSeats.splice(seatIndex, 1);
+                seatElement.classList.remove("selected");
+            } else if (selectedSeats.length < maxSelection) {
+                // Select
+                selectedSeats.push(seatLabel);
+                seatElement.classList.add("selected");
+            }
+
+            updateSelectedSeatBoxes();
+        });
+
+        return seatElement;
+    }
+
+    // Render all seats in proper layout (A to Z, 10 rows and 4 columns)
+    function renderSeats() {
+        const seatContainer = document.getElementById("seatContainer");
+        seatContainer.innerHTML = '';
+
+        // Add driver area
+        const driverDiv = document.createElement("div");
+        driverDiv.className = "driver-area";
+        driverDiv.innerHTML = `<div class="border border-2 border-secondary rounded-3 p-3 bg-light d-inline-block">Driver</div>`;
+        seatContainer.appendChild(driverDiv);
+
+        // Create rows and seats
+        const rowLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        for (let i = 0; i < 10; i++) {
+            const rowLabel = rowLabels[i];
+            const rowDiv = document.createElement("div");
+            rowDiv.className = "seat-row";
+
+            for (let j = 1; j <= 4; j++) {
+                const seatNumber = rowLabel + j;
+                const seat = seats.find(s => s.seat_number === seatNumber);
+                if (seat) {
+                    rowDiv.appendChild(createSeatElement(seat));
+                }
+            }
+
+            seatContainer.appendChild(rowDiv);
+        }
+    }
+
+    // Update the selected seats display
     function updateSelectedSeatBoxes() {
         for (let i = 1; i <= maxSelection; i++) {
             const box = document.getElementById(`seatBox${i}`);
@@ -140,61 +257,29 @@
             }
         }
 
-        document.getElementById("selectedSeatCount").textContent =
-            selectedSeats.length + " seat" + (selectedSeats.length > 1 ? "s" : "");
-        document.getElementById("totalPrice").textContent =
-            "MMK " + (selectedSeats.length * 17000).toLocaleString();
+        // Update total price
+        const unitPrice = {{ $trip->price_per_seat }};
+        const totalPrice = unitPrice * selectedSeats.length;
+        document.getElementById('totalPrice').textContent = `MMK ${totalPrice.toLocaleString()}`;
 
-        // Enable or disable submit button based on seat selection
-        submitBtn.disabled = selectedSeats.length === 0;
+        // Toggle submit button
+        submitBtn.disabled = selectedSeats.length !== maxSelection;
+        submitBtn.classList.toggle('bg-cyan-500', !submitBtn.disabled);
+        submitBtn.classList.toggle('bg-gray-400', submitBtn.disabled);
     }
 
-    for (let i = 0; i < totalSeats / seatsPerRow; i++) {
-        const row = document.createElement("div");
-        row.className = "d-flex justify-content-center gap-3 flex-wrap";
+    // Initialize
+    document.addEventListener('DOMContentLoaded', function() {
+        renderSeats();
+        updateSelectedSeatBoxes();
 
-        for (let j = 0; j < seatsPerRow; j++) {
-            const seatIndex = i * seatsPerRow + j;
-            if (seatIndex >= totalSeats) break;
-
-            if (j === 2) {
-                const aisle = document.createElement("div");
-                aisle.style.width = "20px";
-                row.appendChild(aisle);
+        // Form validation
+        document.getElementById('seatForm').addEventListener('submit', function(e) {
+            if (selectedSeats.length !== maxSelection) {
+                e.preventDefault();
+                alert(`Please select exactly ${maxSelection} seat${maxSelection > 1 ? 's' : ''} before continuing.`);
             }
-
-            const seatLabel = rowLabels[i] + (j < 2 ? j + 1 : j);
-
-            const seat = document.createElement("div");
-            seat.textContent = seatLabel;
-            seat.className = "border border-2 rounded-3 d-flex align-items-center justify-content-center bg-light";
-            seat.style.width = "55px";
-            seat.style.height = "55px";
-            seat.style.cursor = "pointer";
-            seat.dataset.seat = seatLabel;
-
-            seat.addEventListener("click", function () {
-                const index = selectedSeats.indexOf(seatLabel);
-
-                if (index !== -1) {
-                    // Deselect seat
-                    selectedSeats.splice(index, 1);
-                    seat.classList.remove("bg-primary", "text-white", "border-primary");
-                    seat.classList.add("bg-light");
-                } else if (selectedSeats.length < maxSelection) {
-                    // Select seat
-                    selectedSeats.push(seatLabel);
-                    seat.classList.remove("bg-light");
-                    seat.classList.add("bg-primary", "text-white", "border-primary");
-                }
-
-                updateSelectedSeatBoxes();
-            });
-
-            row.appendChild(seat);
-        }
-
-        seatContainer.appendChild(row);
-    }
+        });
+    });
 </script>
 @endsection

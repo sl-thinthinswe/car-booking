@@ -35,11 +35,10 @@ class VehicleController extends Controller
             'model' => 'required|string|max:100',
             'seat_count' => 'required|integer|min:1',
         ]);
-    
+
         Vehicle::create($request->all());
-    
+
         return redirect()->route('admin.vehicles.index')->with('success', 'Vehicle created successfully.');
-    
     }
 
     /**
