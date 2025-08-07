@@ -7,17 +7,15 @@
             ['label' => 'Total Bookings', 'value' => $totalBookings, 'color' => 'primary', 'icon' => 'bi-journal-bookmark'],
             ['label' => 'Confirmed Bookings', 'value' => $confirmedBookings, 'color' => 'success', 'icon' => 'bi-check-circle'],
             ['label' => 'Pending Bookings', 'value' => $pendingBookings, 'color' => 'warning', 'icon' => 'bi-hourglass-split'],
-            ['label' => 'Cancelled Bookings', 'value' => $cancelledBookings, 'color' => 'danger', 'icon' => 'bi-x-circle'],
             ['label' => 'Total Trips', 'value' => $totalTrips, 'color' => 'dark', 'icon' => 'bi-geo-alt'],
             ['label' => 'Available Vehicles', 'value' => $availableVehicles, 'color' => 'info', 'icon' => 'bi-truck-front'],
-            ['label' => 'Total Customers', 'value' => $totalUsers, 'color' => 'cyan', 'icon' => 'bi-people'],
             ['label' => 'Total Routes', 'value' => $totalRoutes, 'color' => 'secondary', 'icon' => 'bi-signpost']
         ];
     @endphp
 
-    {{-- Metric Cards --}}
+    {{-- Metric Cards (3 per row) --}}
     @foreach ($cards as $card)
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="card border-0 shadow-sm rounded-4 p-3 bg-white d-flex flex-column gap-2">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="rounded-circle bg-light p-2">
@@ -32,6 +30,7 @@
         </div>
     @endforeach
 </div>
+
 
 {{-- Charts Section --}}
 <div class="row mt-4 g-4">

@@ -41,7 +41,4 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     Route::post('bookings/{booking}/send-email', [BookingController::class, 'sendEmail'])
         ->name('bookings.sendEmail');
-        
-    Route::post('notifications/read-all', [NotificationController::class, 'markAllRead'])
-        ->name('notifications.markAllRead');
 });
