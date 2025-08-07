@@ -1,26 +1,67 @@
 @extends('layouts.customer.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container mt-5">
     <div class="row g-4">
-        <!-- Left Column - Seat Selection -->
+        <!-- Left Column -->
         <div class="col-lg-8">
-            <div class="card shadow-sm">
+            <form action="{{ route('select') }}" method="POST" id="submitSeatForm" class="card shadow-sm">
+                @csrf
+                <input type="hidden" name="trip_id" value="{{ $trip->id }}">
+                <input type="hidden" name="number_of_seats" value="{{ $numberOfSeats }}">
+
                 <div class="card-header bg-white">
-                    <h4 class="mb-0">Please select up to {{ $numberOfSeats }} Seat(s)</h4>
+                    <h4 class="mb-0">Please select up to {{ $numberOfSeats }} Seat{{ $numberOfSeats > 1 ? 's' : '' }}</h4>
                 </div>
                 <div class="card-body">
-                    <!-- Seat Layout Container -->
                     <div class="overflow-auto" style="max-width: 100%;">
                         <div id="seatContainer" class="seat-grid">
-                            <!-- Seat rows will be injected here dynamically -->
+                            <!-- Driver Layout (Fixed at front of the seat grid) -->
+                            <div class="seat-row d-flex gap-3 mb-3 justify-content-center driver-rectangle">
+                                <div class="seat-box driver-seat">
+                                    <div class="seat driver">
+                                        Driver
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Seat Rows -->
+                            @foreach (range(0, 9) as $rowIndex)
+                                <div class="seat-row d-flex gap-4 mb-3 justify-content-center"> <!-- Increased gap between seat rows -->
+                                    @foreach (range(1, 4) as $columnIndex)
+                                        @php
+                                            $seatNumber = chr(65 + $rowIndex) . $columnIndex;
+                                            $seat = $seats->firstWhere('seat_number', $seatNumber);
+                                        @endphp
+                                        <div class="seat-box" data-seat="{{ $seatNumber }}" 
+                                             @if (!$seat || in_array($seatNumber, $unavailableSeats)) 
+                                                 style="pointer-events:none;opacity:0.5;" 
+                                             @endif>
+                                            @if ($seat && !in_array($seatNumber, $unavailableSeats))
+                                                <div class="seat selectable-seat" 
+                                                     tabindex="0" role="checkbox" aria-checked="false"
+                                                     aria-label="Seat {{ $seatNumber }}">
+                                                    {{ $seatNumber }}
+                                                </div>
+                                            @else
+                                                <div class="seat unavailable-seat text-muted">
+                                                    {{ $seatNumber }} (Unavailable)
+                                                </div>
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endforeach
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Right Column - Trip Summary + Seat Confirm Form -->
+                    <!-- Hidden inputs for selected seats -->
+                    <div id="submitHiddenSelectedSeats"></div>
+                </div>
+            </form>
+        </div> 
+
+        <!-- Right Column -->
         <div class="col-lg-4">
             <!-- Trip Summary -->
             <div class="card shadow-sm border-start border-3 mb-4">
@@ -31,14 +72,19 @@
                     <p><strong>From:</strong> {{ $trip->route->departure->name }}</p>
                     <p><strong>To:</strong> {{ $trip->route->arrival->name }}</p>
                     <p><strong>Departure Time:</strong> {{ \Carbon\Carbon::parse($trip->departure_time)->format('Y-m-d h:i A') }}</p>
-                    <p><strong>Seat:</strong> {{ $numberOfSeats ?? 'Not selected' }}</p>
+                    <p><strong>Seat(s):</strong> 
+                        @if ($numberOfSeats)
+                            {{ $numberOfSeats }} seat{{ $numberOfSeats > 1 ? 's' : '' }}
+                        @else
+                            Not selected
+                        @endif
+                    </p>
                 </div>
             </div>
 
             <!-- Ticket Info -->
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white border-bottom">
-                    <h5 class="mb-0">Ticket Information</h5>
+                <div class="card-header bg-white border-bottom"><h5 class="mb-0">Ticket Information</h5>
                 </div>
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
@@ -66,110 +112,176 @@
                             <span id="totalPrice">MMK {{ number_format($trip->price_per_seat * $numberOfSeats) }}</span>
                         </li>
                     </ul>
+                <!-- Centered Selected Seats Display (without label) -->
+                <div class="d-flex justify-content-center my-4">
+                    <div id="selectedSeatsDisplay" class="d-flex flex-wrap justify-content-center gap-2"></div>
+                </div>
+
+                <!-- Hidden inputs for selected_seats -->
+                <div id="submitHiddenSelectedSeats">
+                    <!-- Submit button inside the right column -->
+                    <button type="submit" form="submitSeatForm" class="btn btn-primary w-100 mt-3">
+                        Continue to Traveller Info
+                    </button>
                 </div>
             </div>
 
-            <!-- Seat Selection Boxes + Form -->
-            <form id="seatForm" action="{{ route('select') }}" method="GET" class="mb-3">
-                @csrf
-                <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
-                    @for($i = 1; $i <= 4; $i++)
-                        <div id="seatBox{{ $i }}"
-                             class="seat-box px-3 py-2 bg-light text-black fw-semibold small"
-                             style="min-width: 80px; text-align: center; display: none; color: black;"></div>
-                        <input type="hidden" name="selected_seats[]" id="seatInput{{ $i }}">
-                    @endfor
-                </div>
-                <button type="submit" id="submitBtn" class="btn bg-cyan-500 w-100 mt-2 py-2">
-                    Continue to Traveller Info
-                </button>
-            </form>
-
-            <!-- Back Button under the form -->
+            <!-- Back Button -->
             <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
                 <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">
-                    ← Back to
+                    ← Back to Trip Selection
                 </a>
             </div>
         </div>
     </div>
 </div>
+
 <style>
-    .seat-box {
-        border: 2px dotted #06b6d4; 
-        border-radius: 8px;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        text-align: center;
-        transition: all 0.3s ease;
-        margin: 2px;
-    }
-    .bg-cyan-500 {
-        background-color: #06b6d4;
-    }
+.seat-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Increased gap between seat rows */
+    justify-content: center; /* Center the grid content */
+    align-items: center; /* Center the content horizontally */
+}
 
-    .seat-grid {
-        display: grid;
-        grid-template-columns: repeat(4, 3cm); 
-        gap: 5px;
-        margin: 10px;
-        justify-items: center;
-        align-items: center;
-        justify-content: center;  
-    }  
+.seat-row {
+    display: flex;
+    gap: 18px; /* column gap */
+    justify-content: center; /* Center each row */
+}
 
-    .seat-row {
-        display: contents;
-    }
+.seat-box {
+    min-width: 60px;
+    user-select: none;
+}
 
-    .aisle {
-        grid-column: 2 / 3;
-        width: 20px;
-        height: 60px;
-        background-color: #f8f9fa;
-    }
+.seat {
+    border: 1px solid #888;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    background-color: #f8f9fa;
+    transition: background-color 0.3s, color 0.3s;
+}
 
-    .back-row {
-        grid-column: 1 / -1;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 5px;
-        margin-top: 15px;
-        padding-top: 15px;
-        border-top: 1px dashed #eee;
-    }
+.seat.selectable-seat:hover {
+    background-color: #e2e6ea;
+}
 
-    .driver-area {
-        grid-column: 1 / -1;
-        text-align: center;
-        margin-bottom: 15px;
-    }
+.seat.selected {
+    background-color: #0d6efd;
+    color: white;
+    border-color: #0a58ca;
+}
 
-    .seat-box.selected {
-        background-color: #06b6d4;
-        color: white;
-        border-color: #06b6d4;
-        transform: scale(1.05);
-        
-    }
+.seat.unavailable-seat {
+    background-color: #e9ecef;
+    cursor: not-allowed;
+}
 
-    .seat-box.unavailable {
-        background-color: #e0e0e0;
-        color: #999;
-        cursor: not-allowed;
-        border-color: #ccc;
-    }
+/* Styling for the driver seat - Rectangle */
+.driver-seat {
+    width: 80px;
+    height: 60px; /* Set height for the rectangle */
+    background-color: #6c757d; /* Grey color for the driver */
+}
 
-    .seat-box:hover:not(.unavailable):not(.selected) {
-        background-color: #f0f0f0;
-    }
+.driver {
+    color: rgb(17, 17, 17);
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+/* Apply rectangle style to the driver row */
+.driver-rectangle {
+    height: 80px; /* Same height for consistency */
+    background-color: #f8f9fa; /* Optional background color */
+}
 </style>
 
 <script>
+document.addEventListener('DOMContentLoaded', function() {
+    const seatElements = document.querySelectorAll('.seat.selectable-seat');
+    const submitHiddenContainer = document.getElementById('submitHiddenSelectedSeats');
+    const selectedSeatsDisplay = document.getElementById('selectedSeatsDisplay');
+    const maxSeats = {{ $numberOfSeats }};
+
+    function updateSubmitHiddenInputs() {
+        submitHiddenContainer.innerHTML = '';
+        selectedSeatsDisplay.innerHTML = '';
+
+        const selectedSeats = Array.from(seatElements)
+            .filter(seat => seat.classList.contains('selected'))
+            .map(seat => seat.parentElement.getAttribute('data-seat'));
+
+        selectedSeats.forEach(seatNum => {
+            // Hidden input for form submission
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = 'selected_seats[]';
+            input.value = seatNum;
+            submitHiddenContainer.appendChild(input);
+
+            // Create styled seat box
+            const seatBox = document.createElement('div');
+            seatBox.textContent = seatNum;
+            seatBox.classList.add('rounded', 'bg-primary', 'text-white', 'text-center');
+            seatBox.style.padding = '12px 18px';
+            seatBox.style.fontSize = '1.1rem';
+            seatBox.style.fontWeight = '500';
+            selectedSeatsDisplay.appendChild(seatBox);
+        });
+    }
+
+    function toggleSeatSelection(seatEl) {
+        const selectedSeatsCount = document.querySelectorAll('.seat.selected').length;
+
+        if (seatEl.classList.contains('selected')) {
+            seatEl.classList.remove('selected');
+            seatEl.setAttribute('aria-checked', 'false');
+        } else {
+            if (selectedSeatsCount >= maxSeats) {
+                alert(`You can only select up to ${maxSeats} seat${maxSeats > 1 ? 's' : ''}.`);
+                return;
+            }
+            seatEl.classList.add('selected');
+            seatEl.setAttribute('aria-checked', 'true');
+        }
+
+        updateSubmitHiddenInputs();
+    }
+
+    // Attach click + keyboard events
+    seatElements.forEach(seat => {
+        seat.addEventListener('click', () => toggleSeatSelection(seat));
+        seat.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                toggleSeatSelection(seat);
+            }
+        });
+    });
+
+    // Restore old seats if validation failed
+    @if(old('selected_seats'))
+        const oldSelectedSeats = @json(old('selected_seats'));
+        seatElements.forEach(seat => {
+            const seatNum = seat.parentElement.getAttribute('data-seat');
+            if (oldSelectedSeats.includes(seatNum)) {
+                seat.classList.add('selected');
+                seat.setAttribute('aria-checked', 'true');
+            }
+        });
+        updateSubmitHiddenInputs();
+    @endif
+});
+</script>
+@endsection 
+{{-- <script>
     const maxSelection = {{ $numberOfSeats ?? 1 }};  
     const selectedSeats = [];
     const submitBtn = document.getElementById("submitBtn");
@@ -262,10 +374,8 @@
         const totalPrice = unitPrice * selectedSeats.length;
         document.getElementById('totalPrice').textContent = `MMK ${totalPrice.toLocaleString()}`;
 
-        // Toggle submit button
+        // Keep the button color cyan-500
         submitBtn.disabled = selectedSeats.length !== maxSelection;
-        submitBtn.classList.toggle('bg-cyan-500', !submitBtn.disabled);
-        submitBtn.classList.toggle('bg-gray-400', submitBtn.disabled);
     }
 
     // Initialize
@@ -281,5 +391,5 @@
             }
         });
     });
-</script>
-@endsection
+</script> --}}
+

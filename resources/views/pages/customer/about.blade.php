@@ -1,4 +1,4 @@
-@extends('layouts.customer.app') <!-- Use your master layout -->
+@extends('layouts.customer.app') 
 
 @section('content')
 <div class="container mt-5">
@@ -33,40 +33,47 @@
 <div class="contact-items-wrapper pb-4 mt-5">
     <div class="container">
         <div class="row justify-content-center gy-4">
-            
-            <!-- Phone Contact Card -->
-            <div class="col-12 col-md-5 d-flex align-items-center shadow rounded p-3"
-                 style="width: 300px; height: 125px; margin-right: 150px; border: 3px solid #0c4a6e; border-radius: 12px;">
-                <!-- Logo Image as Circle -->
-                <img src="{{ asset('images/phone.jpg') }}" alt="Phone Icon"
-                    class="rounded-circle border border-2 border-secondary"
-                    style="width: 50px; height: 50px;" />
 
-                <!-- Text & Button -->
-                <div class="ms-3">
-                    <div class="fw-bold text-black">Please call us at</div>
-                    <h5 class="fw-bold mt-2">
-                        <a href="tel:09 666 777 998" class="text-decoration-underline text-primary">
-                            09 666 777 998
-                        </a>
-                    </h5>
+            <!-- Phone Contact Panel -->
+            <div class="col-12 col-md-5 col-lg-4 d-flex align-items-center shadow rounded p-3 mb-4 mb-md-0"
+                 style="max-width: 350px; border: 3px solid #0c4a6e; border-radius: 12px; padding-left: 20px; padding-right: 20px;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <!-- Logo Image as Circle -->
+                    <img src="{{ asset('images/phone.jpg') }}" alt="Phone Icon"
+                         class="rounded-circle border border-2 border-secondary"
+                         style="width: 50px; height: 50px;" />
+
+                    <!-- Panel Title & Button -->
+                    <div class="ms-3 mt-3 text-center">
+                        <div class="fw-bold text-black">Please call us at</div>
+                        <h5 class="fw-bold mt-2">
+                            <a href="tel:09 666 777 998" class="text-decoration-underline text-primary">
+                                09 666 777 998
+                            </a>
+                        </h5>
+                    </div>
                 </div>
             </div>
 
-            <!-- Email Contact Card -->
-            <div class="col-12 col-md-5 d-flex align-items-center shadow rounded p-3"
-                 style="width: 300px; height: 125px; border: 3px solid #0c4a6e; border-radius: 12px;">
-                <!-- Logo Image as Circle -->
-                <img src="{{ asset('images/email.jpg') }}" alt="Email Icon"
-                    class="rounded-circle border border-2 border-secondary"
-                    style="width: 50px; height: 50px;" />
+            <!-- Space Between Panels -->
+            <div class="col-12 col-md-1 d-none d-md-block"></div> <!-- 20px space for medium screens and up -->
 
-                <!-- Text & Button -->
-                <div class="ms-3">
-                    <div class="fw-bold text-black">Need help? Send us an email</div>
-                    <a href="mailto:support@example.com" class="btn btn-outline-primary mt-2">
-                        Email Support
-                    </a>
+            <!-- Email Contact Panel -->
+            <div class="col-12 col-md-5 col-lg-4 d-flex align-items-center shadow rounded p-3 mb-4 mb-md-0"
+                 style="max-width: 350px; border: 3px solid #0c4a6e; border-radius: 12px; padding-left: 20px; padding-right: 20px;">
+                <div class="d-flex flex-column justify-content-center align-items-center">
+                    <!-- Logo Image as Circle -->
+                    <img src="{{ asset('images/email.jpg') }}" alt="Email Icon"
+                         class="rounded-circle border border-2 border-secondary"
+                         style="width: 50px; height: 50px;" />
+
+                    <!-- Panel Title & Button -->
+                    <div class="ms-3 mt-3 text-center">
+                        <div class="fw-bold text-black">Need help? Send us an email</div>
+                        <a href="mailto:support@example.com" class="btn btn-outline-primary mt-2">
+                            Email Support
+                        </a>
+                    </div>
                 </div>
             </div>
 
@@ -74,5 +81,4 @@
     </div>
 </div>
 
-    
 @endsection

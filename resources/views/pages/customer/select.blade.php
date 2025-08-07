@@ -1,7 +1,7 @@
 @extends('layouts.customer.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container py-5">
     <div class="row g-4">
         <!-- Left Column - Traveller Form -->
         <div class="col-lg-8">
@@ -20,25 +20,24 @@
                         </div>
 
                        
-
-<!-- Phone -->
-<div class="mb-3">
-    <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
-    <input 
-        type="tel" 
-        class="form-control" 
-        id="phone" 
-        name="phone" 
-        required
-        pattern="09\d{9}"
-        maxlength="11"
-        minlength="11"
-        placeholder="09XXXXXXXXX"
-    >
-    <div class="invalid-feedback">
-        Please enter a valid phone number starting with 09 and 11 digits long.
-    </div>
-</div>
+                        <!-- Phone -->
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone <span class="text-danger">*</span></label>
+                            <input 
+                                type="tel" 
+                                class="form-control" 
+                                id="phone" 
+                                name="phone" 
+                                required
+                                pattern="09\d{9}"
+                                maxlength="11"
+                                minlength="11"
+                                placeholder="09XXXXXXXXX"
+                            >
+                            <div class="invalid-feedback">
+                                Please enter a valid phone number starting with 09 and 11 digits long.
+                            </div>
+                        </div>
 
                         <!-- Email -->
                         <div class="mb-3">
@@ -64,72 +63,72 @@
         <!-- Right Column - Trip Summary and Pricing (unchanged) -->
         <div class="col-lg-4">
             <!-- Trip Summary Card -->
-            <div class="card shadow-sm mb-4 border-start border-3 border-primary">
-                <div class="card-header bg-white">
-                    <h5 class="mb-0">Trip Summary</h5>
+<div class="card shadow-sm mb-4 border-start border-3 border-primary">
+    <div class="card-header bg-white">
+        <h5 class="mb-0">Trip Summary</h5>
+    </div>
+    <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item px-0 border-0">
+                <div class="form-check">
+                    <input class="form-check-input me-2" type="checkbox" checked disabled>
+                    <label class="form-check-label fw-semibold">{{ $trip->route->departure->name }}</label>
                 </div>
-                <div class="card-body">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item px-0 border-0">
-                            <div class="form-check">
-                                <input class="form-check-input me-2" type="checkbox" checked disabled>
-                                <label class="form-check-label fw-semibold">Naypyitaw (Bawga)</label>
-                            </div>
-                            <small class="text-muted ms-4">Origin • Jul 15, 06:30 PM</small>
-                        </li>
-                        <li class="list-group-item px-0 border-0">
-                            <div class="form-check">
-                                <input class="form-check-input me-2" type="checkbox" checked disabled>
-                                <label class="form-check-label fw-semibold">Naypyitaw (Myoma)</label>
-                            </div>
-                            <small class="text-muted ms-4">Jul 15, 05:30 PM</small>
-                        </li>
-                        <li class="list-group-item px-0 border-0">
-                            <div class="form-check">
-                                <input class="form-check-input me-2" type="checkbox" checked disabled>
-                                <label class="form-check-label fw-semibold">Mandalay</label>
-                            </div>
-                            <small class="text-muted ms-4">Jul 16, 07:00 AM</small>
-                        </li>
-                    </ul>
-                    <div class="form-check mt-3">
-                        <input class="form-check-input" type="checkbox" id="itinerary">
-                        <label class="form-check-label" for="itinerary">Full itinerary</label>
-                    </div>
-                    <small class="text-muted d-block mt-2">* Arrival times are estimates and may change.</small>
+                <small class="text-muted ms-4">Origin • {{ \Carbon\Carbon::parse($trip->departure_time)->format('M d, h:i A') }}</small>
+            </li>
+            <li class="list-group-item px-0 border-0">
+                <div class="form-check">
+                    <input class="form-check-input me-2" type="checkbox" checked disabled>
+                    <label class="form-check-label fw-semibold">{{ $trip->route->arrival->name }}</label>
                 </div>
-            </div>
+                <small class="text-muted ms-4">Arrival estimate depends on route</small>
+            </li>
+        </ul>
+        <div class="form-check mt-3">
+            <input class="form-check-input" type="checkbox" id="itinerary">
+            <label class="form-check-label" for="itinerary">Full itinerary</label>
+        </div>
+        <small class="text-muted d-block mt-2">* Arrival times are estimates and may change.</small>
+    </div>
+</div>
 
-            <!-- Pricing Details Card -->
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white">
-                    <h6 class="mb-0">Pricing Details</h6>
-                </div>
-                <div class="card-body p-0">
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Bus Operator</span>
-                            <span class="fw-medium">Something Car</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Bus Type</span>
-                            <span class="fw-medium">Standard</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Unit Price</span>
-                            <span class="fw-medium">MMK 17,000</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between">
-                            <span>Seats</span>
-                            <span class="fw-medium">1 (No. 32)</span>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between bg-light">
-                            <span class="fw-bold">Total Price</span>
-                            <span class="fw-bold text-primary">MMK 17,000</span>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+<!-- Pricing Details Card -->
+<div class="card shadow-sm mb-4">
+    <div class="card-header bg-white">
+        <h6 class="mb-0">Pricing Details</h6>
+    </div>
+    <div class="card-body p-0">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Bus Operator</span>
+                <span class="fw-medium">SeatSnap</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Bus Type</span>
+                <span class="fw-medium">{{ $trip->vehicle->model }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Unit Price</span>
+                <span class="fw-medium">{{ number_format($trip->price_per_seat) }} MMK</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>Seat Number</span>
+                <span class="fw-medium"> (No. {{ implode(', ', session('selected_seats', [])) }})</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between">
+                <span>No. of Seats</span>
+                <span class="fw-medium">{{ count(session('selected_seats', [])) }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between bg-light">
+                <span class="fw-bold">Total Price</span>
+                <span class="fw-bold text-primary">
+                    {{ number_format($trip->price_per_seat * count(session('selected_seats', []))) }} MMK
+                </span>
+            </li>
+        </ul>
+    </div>
+</div>
+
 
             <!-- Notices -->
             <div class="card shadow-sm border-start border-3 border-warning">
@@ -150,8 +149,7 @@
 
 @push('scripts')
 <script>
-(() => {
-    const form = document.getElementById('travellerForm');
+(() => {const form = document.getElementById('travellerForm');
     const submitBtn = document.getElementById('submitBtn');
 
     const validateForm = () => {

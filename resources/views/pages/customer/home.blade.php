@@ -1,6 +1,7 @@
 @extends('layouts.customer.app')
 
 @section('content')
+<div class="container mt-5">
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
   <div class="flex flex-col lg:flex-row lg:space-x-16 space-y-10 lg:space-y-0">
     <!-- Left Content -->
@@ -26,6 +27,7 @@
 
     <!-- Right Content -->
     <div class="flex-1 max-w-md mx-auto w-full bg-white rounded-lg p-6 shadow-lg">
+      <form action="{{ route('trips.search') }}" method="GET" class="space-y-6">
       <form action="{{route('trips.search')}}" method="GET" class="space-y-6">
         @csrf
         <div class="flex border-b border-gray-300">
@@ -74,7 +76,7 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 text-center">
         @php
           $features = [
-            ['icon' => 'bus-alt', 'title' => '100+ Car Operators', 'desc' => 'Choose from 100+ major Car operators covering 200 destinations.'],
+            ['icon' => 'bus-alt', 'title' => '1++ Car Operators', 'desc' => 'Choose from 1++ major Car operators covering 200 destinations.'],
             ['icon' => 'clock', 'title' => 'Instant Booking', 'desc' => 'Book your trip in less than 3 minutes. Instant confirmation after payment.'],
             ['icon' => 'shield-alt', 'title' => 'Secure Payment', 'desc' => 'Pay with WaveMoney, CBPay, KBZPay and AYAPay.'],
             ['icon' => 'headset', 'title' => 'Help 24/7', 'desc' => 'Our support center is available 24/7 for your questions and concerns.']
@@ -120,10 +122,10 @@
   <div class="max-w-7xl mx-auto text-center">
     <h2 class="text-2xl font-semibold mb-6 text-gray-800">We Accept</h2>
     <div class="flex flex-wrap justify-center items-center gap-16">
-      <img src="{{ asset('images/789a89a0da9acdf8b41fad39f69b9531.jpg') }}" alt="WaveMoney" class="w-20 h-20 rounded-xl" />
-      <img src="{{ asset('images/11f074fe04271ca1f562331d873344f8 (1).jpg') }}" alt="KBZPay" class="w-20 h-20" />
+      <img src="{{ asset('images/wave.jpg') }}" alt="WaveMoney" class="w-20 h-20 rounded-xl" />
+      <img src="{{ asset('images/kbz.jpg') }}" alt="KBZPay" class="w-20 h-20" />
       <img src="{{ asset('images/cartoon.jpg') }}" alt="CBPay" class="w-20 h-20" />
-      <img src="{{ asset('images/photo_2025-07-03_20-33-44.jpg') }}" alt="AYA" class="w-20 h-20" />
+      <img src="{{ asset('images/AYA.jpg') }}" alt="AYA" class="w-20 h-20" />
     </div>
   </div>
 </section>

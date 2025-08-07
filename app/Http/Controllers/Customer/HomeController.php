@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Models\City;
 use App\Models\Trip;
 use App\Models\Route;
+use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -61,11 +62,17 @@ class HomeController extends Controller
         }
 
         // filter by the vehicle model
-        if ($request->filled('vehicle_type')) {
-            $query->whereHas('vehicle', function ($q) use ($request) {
-                $q->where('model', $request->vehicle_type);
+        $vehicleTypes = [
+            'express' => 'Express',
+            'small' => 'Small Car',
+        ];
+
+        if ($request->filled('vehicle_type') && isset($vehicleTypes[$request->vehicle_type])) {
+            $query->whereHas('vehicle', function ($q) use ($vehicleTypes, $request) {
+                $q->where('model', $vehicleTypes[$request->vehicle_type]);
             });
         }
+
 
         $trips = $query->get();
 
@@ -79,18 +86,64 @@ class HomeController extends Controller
             'vehicle_type' => $request->vehicle_type,
         ]);
     }
+
+    // Display the seat selection page
     public function showSeat(Request $request)
     {
         $trip_id = $request->query('trip_id');
         $numberOfSeats = $request->query('numberOfSeats');
 
-        // Fetch the trip along with the vehicle and its seats
+        // Fetch trip with its vehicle and seats (using eager loading)
         $trip = Trip::with('vehicle.seats')->findOrFail($trip_id);
+        $seats = $trip->vehicle->seats;  // Fetch all seats for the vehicle
+        $unavailableSeats = Booking::where('trip_id', $trip_id)
+            ->pluck('number_of_seat')
+            ->toArray();  // Get all booked seat numbers for the trip
 
-        // Get all the seats for the selected vehicle
-        $seats = $trip->vehicle->seats;
+        return view('pages.customer.seat', compact('trip', 'seats', 'numberOfSeats', 'unavailableSeats'));
+    }
 
-        // Pass the trip and seat data to the view
-        return view('pages.customer.seat', compact('trip', 'seats', 'numberOfSeats'));
+    // Store selected seats and process the booking
+    public function storeSelection(Request $request)
+    {
+        // Validate seat selection
+        $request->validate([
+            'selected_seats' => 'required|array|min:1|max:' . $request->number_of_seats,  // Allow dynamic max seats
+            'selected_seats.*' => 'distinct',
+            'trip_id' => 'required|exists:trips,id',
+        ]);
+
+        // Store the selected seats in the session
+        session([
+            'selected_seats' => $request->input('selected_seats'),
+            'trip_id' => $request->input('trip_id'),
+            'number_of_seats' => $request->input('number_of_seats'),
+        ]);
+
+        return redirect()->route('traveller.form');  // Redirect to traveller form page
+    }
+
+
+
+    // Display the traveller info form with selected seats
+    public function showTravellerForm()
+    {
+        $selectedSeats = session('selected_seats');
+        $tripId = session('trip_id');
+        $numberOfSeats = session('number_of_seats');
+
+        // Ensure selected seats and trip_id exist
+        if (!$selectedSeats || !$tripId || !$numberOfSeats) {
+            return redirect()->route('home')->with('error', 'Please select your trip and seats first.');
+        }
+
+        // Fetch the trip details with route, arrival, and vehicle
+        $trip = Trip::with(['route.departure', 'route.arrival', 'vehicle'])->findOrFail($tripId);
+
+        // Calculate the total price
+        $pricePerSeat = $trip->price_per_seat;
+        $totalPrice = $pricePerSeat * count($selectedSeats);
+
+        return view('pages.customer.select', compact('selectedSeats', 'trip', 'totalPrice', 'numberOfSeats'));
     }
 }

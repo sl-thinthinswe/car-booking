@@ -10,7 +10,8 @@
     <meta name="author" content="fantube">
     <link rel="icon" type="image/png" sizes="16x16" href="{{asset('assets/images/fantube.png')}}">
     <title>FanTube</title>
-    <link href="{{asset('css/libs/bootstrap/bootstrap.min.css')}}" rel="stylesheet" />
+    {{-- <link href="{{asset('css/libs/bootstrap/bootstrap.min.css')}}" rel="stylesheet" /> --}}
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{ asset('css/custom/all.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/libs/fontawesome-free-6.7.2/css/all.min.css') }}" rel="stylesheet"/>
     <link href="{{ asset('css/libs/select2/select-2.min.css') }}" rel="stylesheet">
@@ -26,7 +27,8 @@
     
     
     <!-- Scripts -->
-    <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
+    {{-- <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('js/jquery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/select2/select-2.min.js') }}"></script>
     <script src="{{ asset('js/custom/all.js') }}"></script>
