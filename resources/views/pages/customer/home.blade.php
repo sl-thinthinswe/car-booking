@@ -28,6 +28,7 @@
     <!-- Right Content -->
     <div class="flex-1 max-w-md mx-auto w-full bg-white rounded-lg p-6 shadow-lg">
       <form action="{{ route('trips.search') }}" method="GET" class="space-y-6">
+      <form action="{{route('trips.search')}}" method="GET" class="space-y-6">
         @csrf
         <div class="flex border-b border-gray-300">
           <button type="button" class="flex-1 text-cyan-600 font-bold border-b-2 border-cyan-600 px-4 py-2">Express Car</button>

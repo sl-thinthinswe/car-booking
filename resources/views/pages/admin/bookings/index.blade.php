@@ -65,17 +65,13 @@
                             </td>
                             <td>{{ \Carbon\Carbon::parse($booking->booking_time)->format('Y-m-d H:i') }}</td>
                             <td>{{ $booking->number_of_seat }}</td>
-                            {{-- <td>{{ number_format($booking->trip->price_per_seat * $booking->number_of_seat) }} MMK</td> --}}
-
                             <td>
                                 @if($booking->trip && $booking->trip->price_per_seat)
                                     {{ number_format($booking->trip->price_per_seat * $booking->number_of_seat) }} MMK
                                 @else
                                     N/A
                                 @endif
-                            </td>
-
-                            <td>
+                            </td>                            <td>
                                 <span class="badge bg-{{ match($booking->status) {
                                     'confirmed' => 'success',
                                     'pending' => 'warning',
