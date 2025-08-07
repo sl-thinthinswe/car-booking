@@ -1,4 +1,4 @@
-<div class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-2 border-bottom ">
+<div class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-2 border-bottom">
     <button class="btn btn-outline-primary d-md-none me-2 rounded-circle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile" style="width: 40px; height: 40px;">
         <i class="bi bi-list"></i> 
     </button>
@@ -16,48 +16,6 @@
     @endphp
 
     <div class="d-flex align-items-center gap-3">
-
-        {{-- Notification Bell --}}
-        <div class="dropdown">
-            <a href="#" class="btn btn-outline-primary position-relative" role="button" id="notificationDropdown" data-bs-toggle="dropdown" aria-expanded="false" style="font-size: 1.3rem;">
-                <i class="bi bi-bell"></i>
-                @if($unreadNotifications->count() > 0)
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        {{ $unreadNotifications->count() }}
-                    </span>
-                @endif
-            </a>
-
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0 p-2" aria-labelledby="notificationDropdown" style="min-width: 320px; max-height: 400px; overflow-y: auto;">
-                <li class="dropdown-header">Notifications</li>
-
-                @if($unreadNotifications->count() > 0)
-                    @foreach ($unreadNotifications as $notification)
-                        <li>
-                            <a href="{{ route('admin.bookings.show', $notification->data['booking_id']) }}" class="dropdown-item">
-                                <div>
-                                    <strong>{{ $notification->data['user_name'] }}</strong> booked a trip<br>
-                                    {{ $notification->data['trip'] }} | Seats: {{ $notification->data['seats'] }}<br>
-                                    <small class="text-muted">Total: {{ number_format($notification->data['total']) }} MMK</small><br>
-                                    <small class="text-muted">{{ $notification->created_at->diffForHumans() }}</small>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-                @else
-                    <li class="dropdown-item text-center text-muted">No new notifications</li>
-                @endif
-
-                <li><hr class="dropdown-divider"></li>
-
-                <li>
-                    <form action="{{ route('admin.notifications.markAllRead') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item text-center text-primary">Mark all as read</button>
-                    </form>
-                </li>
-            </ul>
-        </div>
 
         {{-- User Dropdown --}}
         <div class="dropdown">

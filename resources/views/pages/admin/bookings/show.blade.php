@@ -28,12 +28,6 @@
                             'cancelled' => 'danger',
                         } }}">{{ ucfirst($booking->status) }}</span>
                     </p>
-                    <form method="POST" action="{{ route('admin.bookings.sendEmail', $booking->id) }}" class="mt-3">
-                        @csrf
-                        <button type="submit" class="btn btn-outline-primary">
-                            📧 Send Confirmation Email to User
-                        </button>
-                    </form> 
                 </div>
             </div>
         </div>
@@ -67,29 +61,6 @@
             <p><strong>Departure Time:</strong> {{ $booking->trip->departure_time }}</p>
         </div>
     </div>
-
-    
-    <div class="card shadow-sm">
-        <div class="card-header bg-secondary text-white">
-            Manage Booking
-        </div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('admin.bookings.updateStatus', $booking->id) }}" class="d-flex align-items-center">
-                @csrf
-                @method('PATCH')
-
-                <label for="status" class="me-2">Update Status:</label>
-                <select name="status" id="status" class="form-select w-auto me-3">
-                    <option value="pending" {{ $booking->status == 'pending' ? 'selected' : '' }}>Pending</option>
-                    <option value="confirmed" {{ $booking->status == 'confirmed' ? 'selected' : '' }}>Confirmed</option>
-                    <option value="cancelled" {{ $booking->status == 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                </select>
-
-                <button type="submit" class="btn btn-success">Update</button>
-            </form>
-        </div>
-    </div>
-
     <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary mt-4">← Back to Bookings List</a>
 </div>
 @endsection

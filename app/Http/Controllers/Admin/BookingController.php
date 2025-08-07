@@ -57,19 +57,30 @@ class BookingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
-    {
-        $booking = Booking::create([
-            // booking fields
-        ]);
-        
-        // Get Admin User(s)
-        $admins = User::where('name', 'Admin')->get(); // update according to your structure
-        
-        foreach ($admins as $admin) {
-            $admin->notify(new NewBookingNotification($booking));
-        }
-    }
+    // public function store(Request $request)
+    // {
+    //     $request->validate([
+    //         'from' => 'required|string',
+    //         'to' => 'required|string',
+    //         'date' => 'required|date',
+    //     ]);
+
+    //     $booking = Booking::create([
+    //         'user_id' => auth()->id(), 
+    //         'from' => $request->from,
+    //         'to' => $request->to,
+    //         'date' => $request->date,
+    //         'status' => 'pending',
+    //     ]);
+    
+    //     $admins = User::where('name', 'Admin')->get(); 
+    
+    //     foreach ($admins as $admin) {
+    //         $admin->notify(new NewBookingNotification($booking));
+    //     }
+    
+    //     return redirect()->back()->with('success', 'Booking created and admin notified!');
+    // }
 
     /**
      * Display the specified resource.
