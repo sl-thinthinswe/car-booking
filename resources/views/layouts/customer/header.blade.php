@@ -1,10 +1,10 @@
-<div class="bg-cyan-800" style="height: 100px !important;">
+<div class="bg-cyan-800" style="height: 110px !important;">
   <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 relative z-50">
     <div class="flex justify-between items-center">
 
       <!-- Logo -->
-      <div class="flex items-center gap-2 text-xl font-bold text-white">
-        <img src="{{ asset('images/2-removebg-preview.png') }}" alt="Car Icon" class="w-10 h-10" />
+      <div class="flex items-center gap-2 text-3xl font-bold text-white">
+        <img src="{{ asset('images/SeatSnap_BG.png') }}" alt="Car Icon" class="w-25 h-15" />
         <span>SeatSnap</span>
       </div>
 
@@ -17,14 +17,14 @@
       </button>
 
       <!-- Desktop Menu -->
-      <div class="hidden md:flex md:items-center md:gap-6 text-sm text-white">
-        <a href="{{ route('home')}}" class="hover:underline">Home</a>
-        <a href="{{ route('print') }}" class="hover:underline">Print Ticket</a>
-        <a href="{{ route('faq') }}" class="hover:underline">FAQs</a>
-        <a href="{{ route('about') }}" class="hover:underline">About us</a>
-      </div>
-    </div>
-  </nav>
+<div class="hidden md:flex md:items-center md:gap-6 text-lg text-white overflow-hidden">
+  <a href="{{ route('home') }}" class="hover:underline">Home</a>
+  <a href="{{ route('print') }}" class="hover:underline">Print Ticket</a>
+  <a href="{{ route('faq') }}" class="hover:underline">FAQs</a>
+  <a href="{{ route('about') }}" class="hover:underline">About Us</a>
+</div>
+</nav>
+
 
   <!-- Mobile Slide Menu -->
   <div id="mobile-menu"

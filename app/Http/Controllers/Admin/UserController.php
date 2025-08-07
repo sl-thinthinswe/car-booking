@@ -14,7 +14,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('name', '!=', 'Admin')
-                 ->orderBy('created_at', 'desc')->paginate(10);
+            ->orderBy('created_at', 'desc')->paginate(10);
         return view('pages.admin.users.index', compact('users'));
     }
 
@@ -55,7 +55,7 @@ class UserController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
-    {   
+    {
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $id,
@@ -63,13 +63,13 @@ class UserController extends Controller
         ]);
 
         $user = User::findOrFail($id);
-        $user->update($request->only(['name', 'email', 'phone'])); 
+        $user->update($request->only(['name', 'email', 'phone']));
 
         return redirect()->route('admin.users.index')->with('success', 'User updated.');
     }
 
-    
-    
+
+
 
     /**
      * Remove the specified resource from storage.
@@ -77,6 +77,6 @@ class UserController extends Controller
     public function destroy($id)
     {
         User::findOrFail($id)->delete();
-        return redirect()->route('admin.users.index')->with('success','Deleted sucessfully');
+        return redirect()->route('admin.users.index')->with('success', 'Deleted sucessfully');
     }
 }

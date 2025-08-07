@@ -49,7 +49,7 @@
 
                 <!-- Submit Button -->
                 <div class="col-12 col-md-2"style="padding-left: 3px; padding-right: 3px; margin-left: 20px;"> 
-                    <button type="submit" class="btn w-100" style="background-color: #0c27f0; color: white;">
+                    <button type="submit" class="btn w-100" style="background-color: #06b6d4; color: white;">
                         Retrieve Booking
                     </button>
                 </div>

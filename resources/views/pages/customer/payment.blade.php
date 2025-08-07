@@ -1,6 +1,7 @@
 @extends('layouts.customer.app')
 
 @section('content')
+<div class="container mt-5">
 <style>
     @media (min-width: 992px) {
         .trip-summary-wrapper {

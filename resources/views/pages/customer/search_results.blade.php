@@ -1,12 +1,12 @@
 @extends('layouts.customer.app')
 
 @section('content')
-<div class="container py-4">
+<div class="container mt-5">
 
     @if(isset($cities))
     <!-- Vehicle Type Selector -->
     <form action="{{ route('trips.search') }}" method="GET" id="search_form">
-        <div class="d-flex justify-content-right gap-3 mb-4">
+           <div class="d-flex justify-content-right gap-3 mb-4">
             <!-- Express Car Button -->
             <button type="submit" name="vehicle_type" value="express" 
                 id="express_car_btn" class="btn px-4 py-2 {{ (request('vehicle_type') ?? '') == 'express' ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-500 border-cyan-500' }}">
@@ -168,5 +168,23 @@
         </div>
     </form>
     @endif
+    <style>
+    /* CSS */
+    .vehicle-btn {
+        border-color: #f7f3f3;
+        color: #0e0f0e;
+        transition: all 0.3s ease;
+    }
+    
+    .vehicle-btn.active {
+        background-color: #050505;
+        color: white;
+        border-color: #050505;
+    }
+    
+    .vehicle-btn:not(.active):hover {
+        background-color: #f0f0f0;
+    }
+</style>
 </div>
 @endsection
