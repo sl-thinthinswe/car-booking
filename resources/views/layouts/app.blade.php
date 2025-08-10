@@ -47,8 +47,6 @@
             })
         });
     </script>
-    
-
     @yield('js')
     
 </body>
