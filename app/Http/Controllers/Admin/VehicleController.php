@@ -30,23 +30,15 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'license_plate' => 'required|string|max:20|unique:vehicles',
-            'model' => 'required|string|max:100',
+            'model' => 'required|string|in:small_car,express',
             'seat_count' => 'required|integer|min:1',
         ]);
 
-        Vehicle::create($request->all());
+        Vehicle::create($validated);
 
         return redirect()->route('admin.vehicles.index')->with('success', 'Vehicle created successfully.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
     }
 
     /**
@@ -65,13 +57,13 @@ class VehicleController extends Controller
     {
         $vehicle = Vehicle::findOrFail($id);
 
-        $request->validate([
-            'license_plate' => 'required|string|max:20',
-            'model' => 'required|string|max:100',
+        $validated = $request->validate([
+            'license_plate' => 'required|string|max:20|unique:vehicles,license_plate,' . $vehicle->id,
+            'model' => 'required|string|in:small_car,express',
             'seat_count' => 'required|integer|min:1',
         ]);
 
-        $vehicle->update($request->all());
+        $vehicle->update($validated);
 
         return redirect()->route('admin.vehicles.index')->with('success', 'Vehicle updated successfully.');
     }
@@ -82,6 +74,6 @@ class VehicleController extends Controller
     public function destroy(Vehicle $vehicle)
     {
         $vehicle->delete();
-        return redirect()->route('admin.vehicles.index')->with('success', 'vehicle deleted successfully.');
+        return redirect()->route('admin.vehicles.index')->with('success', 'Vehicle deleted successfully.');
     }
 }

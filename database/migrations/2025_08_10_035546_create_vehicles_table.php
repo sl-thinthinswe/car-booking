@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('vehicles', function (Blueprint $table) {
             $table->id();
             $table->string('license_plate')->unique();
-            $table->string('model');
+            $table->enum('model', ['small_car', 'express']); 
             $table->integer('seat_count');
             $table->timestamps();
         });
