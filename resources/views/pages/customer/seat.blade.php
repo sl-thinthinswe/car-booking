@@ -22,12 +22,12 @@
                                     <div class="seat driver">
                                         Driver
                                     </div>
-                                </div>
+                                </div> 
                             </div>
 
                             <!-- Seat Rows -->
                             @foreach (range(0, 9) as $rowIndex)
-                                <div class="seat-row d-flex gap-4 mb-3 justify-content-center"> <!-- Increased gap between seat rows -->
+                                <div class="seat-row d-flex gap-4 mb-3 justify-content-center">
                                     @foreach (range(1, 4) as $columnIndex)
                                         @php
                                             $seatNumber = chr(65 + $rowIndex) . $columnIndex;
@@ -111,21 +111,23 @@
                             <span>Total Ticket Price</span>
                             <span id="totalPrice">MMK {{ number_format($trip->price_per_seat * $numberOfSeats) }}</span>
                         </li>
+                        </div>
+                        </div>
+                      <!-- Centered Selected Seats Display (without label) -->
+                      <div class="d-flex justify-content-center my-4">
+                          <div id="selectedSeatsDisplay" class="d-flex flex-wrap justify-content-center gap-2">
+                          </div>
+                      </div>
                     </ul>
-                <!-- Centered Selected Seats Display (without label) -->
-                <div class="d-flex justify-content-center my-4">
-                    <div id="selectedSeatsDisplay" class="d-flex flex-wrap justify-content-center gap-2"></div>
-                </div>
 
-                <!-- Hidden inputs for selected_seats -->
-                <div id="submitHiddenSelectedSeats">
-                    <!-- Submit button inside the right column -->
-                    <button type="submit" form="submitSeatForm" class="btn btn-primary w-100 mt-3">
-                        Continue to Traveller Info
-                    </button>
-                </div>
-            </div>
-
+                    <!-- Hidden inputs for selected_seats -->
+                    <div id="submitHiddenSelectedSeats">
+                        <!-- Submit button inside the right column -->
+                        <button type="submit" form="submitSeatForm" class="btn bg-cyan-500 text-white w-100 mt-3">
+                            Continue to Traveller Info
+                        </button>
+                    </div>
+                
             <!-- Back Button -->
             <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
                 <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">
@@ -171,9 +173,9 @@
 }
 
 .seat.selected {
-    background-color: #0d6efd;
+    background-color: #0dcaf0;
     color: white;
-    border-color: #0a58ca;
+    border-color: #0dcaf0;
 }
 
 .seat.unavailable-seat {
@@ -181,10 +183,9 @@
     cursor: not-allowed;
 }
 
-/* Styling for the driver seat - Rectangle */
 .driver-seat {
-    width: 80px;
-    height: 60px; /* Set height for the rectangle */
+    width: 300px;  /* Set width to 100px */
+    height: 40px; /* Set height (length) to 100px */
     background-color: #6c757d; /* Grey color for the driver */
 }
 
@@ -194,13 +195,22 @@
     font-weight: bold;
     padding: 10px;
     border-radius: 5px;
+    height: 100%; /* Ensures the text is centered within the seat */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-/* Apply rectangle style to the driver row */
-.driver-rectangle {
-    height: 80px; /* Same height for consistency */
-    background-color: #f8f9fa; /* Optional background color */
+.selectedSeatsDisplay {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 2rem;
+    padding-top: 0.5rem;
+    background-color: #f8f9fa; 
+    border-top: none; 
 }
+
 </style>
 
 <script>
@@ -229,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Create styled seat box
             const seatBox = document.createElement('div');
             seatBox.textContent = seatNum;
-            seatBox.classList.add('rounded', 'bg-primary', 'text-white', 'text-center');
+            seatBox.classList.add('seat-box', 'rounded', 'bg-cyan-500', 'text-white', 'text-center');
             seatBox.style.padding = '12px 18px';
             seatBox.style.fontSize = '1.1rem';
             seatBox.style.fontWeight = '500';
@@ -245,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
             seatEl.setAttribute('aria-checked', 'false');
         } else {
             if (selectedSeatsCount >= maxSeats) {
-                alert(`You can only select up to ${maxSeats} seat${maxSeats > 1 ? 's' : ''}.`);
+                // Prevent further selection if the maximum limit is reached without showing an alert
                 return;
             }
             seatEl.classList.add('selected');
@@ -280,116 +290,5 @@ document.addEventListener('DOMContentLoaded', function() {
     @endif
 });
 </script>
-@endsection 
-{{-- <script>
-    const maxSelection = {{ $numberOfSeats ?? 1 }};  
-    const selectedSeats = [];
-    const submitBtn = document.getElementById("submitBtn");
-    const seats = @json($seats);
-    const unavailableSeats = @json($unavailableSeats ?? []);
-
-    // Create a seat element
-    function createSeatElement(seat) {
-        const seatLabel = seat.seat_number;
-        const seatElement = document.createElement("div");
-        seatElement.textContent = seatLabel;
-        seatElement.className = "seat-box";
-        seatElement.dataset.seat = seatLabel;
-
-        // Mark unavailable seats
-        if (unavailableSeats.includes(seatLabel)) {
-            seatElement.classList.add("unavailable");
-            return seatElement;
-        }
-
-        // Add click event
-        seatElement.addEventListener("click", function() {
-            const seatIndex = selectedSeats.indexOf(seatLabel);
-
-            if (seatIndex !== -1) {
-                // Deselect
-                selectedSeats.splice(seatIndex, 1);
-                seatElement.classList.remove("selected");
-            } else if (selectedSeats.length < maxSelection) {
-                // Select
-                selectedSeats.push(seatLabel);
-                seatElement.classList.add("selected");
-            }
-
-            updateSelectedSeatBoxes();
-        });
-
-        return seatElement;
-    }
-
-    // Render all seats in proper layout (A to Z, 10 rows and 4 columns)
-    function renderSeats() {
-        const seatContainer = document.getElementById("seatContainer");
-        seatContainer.innerHTML = '';
-
-        // Add driver area
-        const driverDiv = document.createElement("div");
-        driverDiv.className = "driver-area";
-        driverDiv.innerHTML = `<div class="border border-2 border-secondary rounded-3 p-3 bg-light d-inline-block">Driver</div>`;
-        seatContainer.appendChild(driverDiv);
-
-        // Create rows and seats
-        const rowLabels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-        for (let i = 0; i < 10; i++) {
-            const rowLabel = rowLabels[i];
-            const rowDiv = document.createElement("div");
-            rowDiv.className = "seat-row";
-
-            for (let j = 1; j <= 4; j++) {
-                const seatNumber = rowLabel + j;
-                const seat = seats.find(s => s.seat_number === seatNumber);
-                if (seat) {
-                    rowDiv.appendChild(createSeatElement(seat));
-                }
-            }
-
-            seatContainer.appendChild(rowDiv);
-        }
-    }
-
-    // Update the selected seats display
-    function updateSelectedSeatBoxes() {
-        for (let i = 1; i <= maxSelection; i++) {
-            const box = document.getElementById(`seatBox${i}`);
-            const input = document.getElementById(`seatInput${i}`);
-
-            if (selectedSeats[i - 1]) {
-                box.textContent = selectedSeats[i - 1];
-                input.value = selectedSeats[i - 1];
-                box.style.display = 'block';
-            } else {
-                box.textContent = '';
-                input.value = '';
-                box.style.display = 'none';
-            }
-        }
-
-        // Update total price
-        const unitPrice = {{ $trip->price_per_seat }};
-        const totalPrice = unitPrice * selectedSeats.length;
-        document.getElementById('totalPrice').textContent = `MMK ${totalPrice.toLocaleString()}`;
-
-        // Keep the button color cyan-500
-        submitBtn.disabled = selectedSeats.length !== maxSelection;
-    }
-
-    // Initialize
-    document.addEventListener('DOMContentLoaded', function() {
-        renderSeats();
-        updateSelectedSeatBoxes();
-
-        // Form validation
-        document.getElementById('seatForm').addEventListener('submit', function(e) {
-            if (selectedSeats.length !== maxSelection) {
-                e.preventDefault();
-                alert(`Please select exactly ${maxSelection} seat${maxSelection > 1 ? 's' : ''} before continuing.`);
-            }
-        });
-    });
-</script> --}}
-
+<div class="container mt-5">
+@endsection
