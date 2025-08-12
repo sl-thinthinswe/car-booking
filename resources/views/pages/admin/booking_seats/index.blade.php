@@ -35,11 +35,11 @@
                     <td>{{ \Carbon\Carbon::parse($bs->trip->departure_time)->format('Y-m-d H:i') ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('admin.booking_seats.show', $bs->id) }}" class="btn btn-sm btn-info">View</a>
-                        <form action="{{ route('admin.booking_seats.destroy', $bs->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this booking seat?');">
+                        {{-- <form action="{{ route('admin.booking_seats.destroy', $bs->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this booking seat?');">
                             @csrf
                             @method('DELETE')
                             <button class="btn btn-sm btn-danger">Delete</button>
-                        </form>
+                        </form> --}}
                     </td>
                 </tr>
             @endforeach

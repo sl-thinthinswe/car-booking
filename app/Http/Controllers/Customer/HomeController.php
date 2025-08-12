@@ -92,16 +92,34 @@ class HomeController extends Controller
     {
         $trip_id = $request->query('trip_id');
         $numberOfSeats = $request->query('numberOfSeats');
-
-        // Fetch trip with its vehicle and seats (using eager loading)
+    
         $trip = Trip::with('vehicle.seats')->findOrFail($trip_id);
-        $seats = $trip->vehicle->seats;  // Fetch all seats for the vehicle
+    
+        // Determine total seats based on vehicle model/type
+        $vehicleModel = strtolower($trip->vehicle->model);
+    
+        if ($vehicleModel === 'express') {
+            $totalPassengerSeats = 44; // Express: 44 passenger seats
+        } elseif ($vehicleModel === 'small car' || $vehicleModel === 'small') {
+            $totalPassengerSeats = 4;  // Small car: 4 passenger seats
+        } else {
+            $totalPassengerSeats = 4;  // Default fallback
+        }
+    
+        // Fetch booked seats for the trip (actual seat numbers)
         $unavailableSeats = Booking::where('trip_id', $trip_id)
-            ->pluck('number_of_seat')
-            ->toArray();  // Get all booked seat numbers for the trip
-
-        return view('pages.customer.seat', compact('trip', 'seats', 'numberOfSeats', 'unavailableSeats'));
+            ->where('status', '!=', 'cancelled') // exclude cancelled
+            ->with('seats')                      // eager load seats
+            ->get()
+            ->pluck('seats')                    // collection of seat collections
+            ->flatten()
+            ->pluck('seat_number')
+            ->unique()
+            ->toArray();
+    
+        return view('pages.customer.seat', compact('trip', 'numberOfSeats', 'unavailableSeats', 'totalPassengerSeats'));
     }
+    
 
     // Store selected seats and process the booking
     public function storeSelection(Request $request)

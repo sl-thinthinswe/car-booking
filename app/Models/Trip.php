@@ -9,6 +9,12 @@ class Trip extends Model
 {
     use HasFactory;
     protected $fillable = ['route_id', 'vehicle_id', 'departure_time', 'price_per_seat'];
+    
+
+    protected $casts = [
+        'departure_time' => 'datetime',
+    ];
+
 
     public function route()
     {
@@ -31,5 +37,5 @@ class Trip extends Model
 
         return $from && $to ? "$from → $to" : 'N/A';
     }
-
+    
 }

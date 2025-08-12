@@ -16,7 +16,7 @@
                     ['route' => 'admin.seats.index', 'icon' => 'grid', 'label' => 'Seats'],
                     ['route' => 'admin.trips.index', 'icon' => 'geo-alt', 'label' => 'Trips'],
                     ['route' => 'admin.bookings.index', 'icon' => 'ticket-perforated', 'label' => 'Bookings'],
-                    // ['route' => 'admin.booking_seats.index', 'icon' => 'calendar-check', 'label' => 'Booking Seats'],
+                    ['route' => 'admin.booking_seats.index', 'icon' => 'calendar-check', 'label' => 'Booking Seats'],
                 ];
             @endphp
 
