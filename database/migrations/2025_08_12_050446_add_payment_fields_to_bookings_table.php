@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('bookings', function (Blueprint $table) {
-            $table->string('payment_method')->nullable();
-            $table->string('payment_reference')->nullable();
+        Schema::create('vehicles', function (Blueprint $table) {
+            $table->id();
+            $table->string('license_plate')->unique();
+            $table->enum('model', ['small_car', 'express']); 
+            $table->integer('seat_count');
+            $table->timestamps();
         });
-    }
-
     /**
      * Reverse the migrations.
      */
