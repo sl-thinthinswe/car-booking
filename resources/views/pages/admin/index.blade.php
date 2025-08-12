@@ -33,7 +33,7 @@
 
 
 {{-- Charts Section --}}
-<div class="row mt-4 g-4">
+{{-- <div class="row mt-4 g-4">
 
     <div class="col-lg-6 mt-4">
         <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
@@ -43,10 +43,10 @@
             </div>
             <canvas id="bookingsByRouteChart" height="250"></canvas>
         </div>
-    </div>
+    </div> --}}
     
     {{-- Booking Overview Chart --}}
-    <div class="col-lg-6">
+    {{-- <div class="col-lg-6">
         <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="mb-0 fw-semibold text-dark">Booking Overview</h5>
@@ -54,7 +54,7 @@
             </div>
             <canvas id="bookingChart" height="250"></canvas>
         </div>
-    </div>
+    </div> --}}
 
 </div>
 @endsection

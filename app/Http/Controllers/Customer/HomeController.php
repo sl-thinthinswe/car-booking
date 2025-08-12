@@ -120,7 +120,8 @@ class HomeController extends Controller
             'number_of_seats' => $request->input('number_of_seats'),
         ]);
 
-        return redirect()->route('traveller.form');  // Redirect to traveller form page
+        return redirect()->route('traveller.form'); 
+ // Redirect to traveller form page
     }
 
 
@@ -131,19 +132,20 @@ class HomeController extends Controller
         $selectedSeats = session('selected_seats');
         $tripId = session('trip_id');
         $numberOfSeats = session('number_of_seats');
-
-        // Ensure selected seats and trip_id exist
+    
         if (!$selectedSeats || !$tripId || !$numberOfSeats) {
             return redirect()->route('home')->with('error', 'Please select your trip and seats first.');
         }
-
-        // Fetch the trip details with route, arrival, and vehicle
+    
         $trip = Trip::with(['route.departure', 'route.arrival', 'vehicle'])->findOrFail($tripId);
-
-        // Calculate the total price
         $pricePerSeat = $trip->price_per_seat;
         $totalPrice = $pricePerSeat * count($selectedSeats);
-
-        return view('pages.customer.select', compact('selectedSeats', 'trip', 'totalPrice', 'numberOfSeats'));
+    
+        $showPaymentModal = session('showPaymentModal', false);
+        $currentBookingId = session('current_booking_id', null);
+    
+        return view('pages.customer.select', compact(
+            'selectedSeats', 'trip', 'totalPrice', 'numberOfSeats', 'showPaymentModal', 'currentBookingId'
+        ));
     }
 }
