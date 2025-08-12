@@ -19,6 +19,8 @@ return new class extends Migration
             $table->integer('number_of_seat');
             $table->decimal('total_amount', 8, 2);
             $table->enum('status', ['confirmed', 'cancelled', 'pending'])->default('pending');
+            $table->string('payment_method')->nullable();
+            $table->string('payment_reference')->nullable();
             $table->timestamps();
         });
     }
