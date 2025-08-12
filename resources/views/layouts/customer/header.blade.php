@@ -19,7 +19,7 @@
       <!-- Desktop Menu -->
 <div class="hidden md:flex md:items-center md:gap-6 text-lg text-white overflow-hidden">
   <a href="{{ route('home') }}" class="hover:underline">Home</a>
-  <a href="{{ route('print') }}" class="hover:underline">Print Ticket</a>
+  <a href="{{ route('print') }}" class="hover:underline">Retrieve Booking</a>
   <a href="{{ route('faq') }}" class="hover:underline">FAQs</a>
   <a href="{{ route('about') }}" class="hover:underline">About Us</a>
 </div>
