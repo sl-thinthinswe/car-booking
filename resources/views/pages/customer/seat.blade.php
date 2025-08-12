@@ -25,33 +25,42 @@
                                 </div> 
                             </div>
 
-                            <!-- Seat Rows -->
-                            @foreach (range(0, 9) as $rowIndex)
+                            <!-- Passenger Seat Rows -->
+                            @php
+                                $columns = 4; // fixed columns for layout
+                                $rows = ceil($totalPassengerSeats / $columns);
+                                $seatCount = 0;
+                            @endphp
+
+                            @for ($rowIndex = 0; $rowIndex < $rows; $rowIndex++)
                                 <div class="seat-row d-flex gap-4 mb-3 justify-content-center">
-                                    @foreach (range(1, 4) as $columnIndex)
+                                    @for ($colIndex = 1; $colIndex <= $columns; $colIndex++)
                                         @php
-                                            $seatNumber = chr(65 + $rowIndex) . $columnIndex;
-                                            $seat = $seats->firstWhere('seat_number', $seatNumber);
+                                            $seatCount++;
+                                            if ($seatCount > $totalPassengerSeats) {
+                                                break;
+                                            }
+                                            $seatNumber = chr(65 + $rowIndex) . $colIndex;
                                         @endphp
-                                        <div class="seat-box" data-seat="{{ $seatNumber }}" 
-                                             @if (!$seat || in_array($seatNumber, $unavailableSeats)) 
-                                                 style="pointer-events:none;opacity:0.5;" 
-                                             @endif>
-                                            @if ($seat && !in_array($seatNumber, $unavailableSeats))
-                                                <div class="seat selectable-seat" 
-                                                     tabindex="0" role="checkbox" aria-checked="false"
-                                                     aria-label="Seat {{ $seatNumber }}">
+
+                                        <div class="seat-box" data-seat="{{ $seatNumber }}"
+                                            @if (in_array($seatNumber, $unavailableSeats))
+                                                style="pointer-events:none;opacity:0.5;"
+                                            @endif>
+                                            @if (!in_array($seatNumber, $unavailableSeats))
+                                                <div class="seat selectable-seat" tabindex="0" role="checkbox" aria-checked="false"
+                                                    aria-label="Seat {{ $seatNumber }}">
                                                     {{ $seatNumber }}
                                                 </div>
                                             @else
                                                 <div class="seat unavailable-seat text-muted">
-                                                    {{ $seatNumber }} (Unavailable)
+                                                    {{ $seatNumber }} 
                                                 </div>
                                             @endif
                                         </div>
-                                    @endforeach
+                                    @endfor
                                 </div>
-                            @endforeach
+                            @endfor
                         </div>
                     </div>
 
@@ -59,7 +68,7 @@
                     <div id="submitHiddenSelectedSeats"></div>
                 </div>
             </form>
-        </div> 
+        </div>
 
         <!-- Right Column -->
         <div class="col-lg-4">
@@ -84,7 +93,8 @@
 
             <!-- Ticket Info -->
             <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white border-bottom"><h5 class="mb-0">Ticket Information</h5>
+                <div class="card-header bg-white border-bottom">
+                    <h5 class="mb-0">Ticket Information</h5>
                 </div>
                 <div class="card-body p-0">
                     <ul class="list-group list-group-flush">
@@ -111,23 +121,22 @@
                             <span>Total Ticket Price</span>
                             <span id="totalPrice">MMK {{ number_format($trip->price_per_seat * $numberOfSeats) }}</span>
                         </li>
-                        </div>
-                        </div>
-                      <!-- Centered Selected Seats Display (without label) -->
-                      <div class="d-flex justify-content-center my-4">
-                          <div id="selectedSeatsDisplay" class="d-flex flex-wrap justify-content-center gap-2">
-                          </div>
-                      </div>
                     </ul>
+                </div>
 
-                    <!-- Hidden inputs for selected_seats -->
-                    <div id="submitHiddenSelectedSeats">
-                        <!-- Submit button inside the right column -->
-                        <button type="submit" form="submitSeatForm" class="btn bg-cyan-500 text-white w-100 mt-3">
-                            Continue to Traveller Info
-                        </button>
-                    </div>
-                
+                <!-- Centered Selected Seats Display -->
+                <div class="d-flex justify-content-center my-4">
+                    <div id="selectedSeatsDisplay" class="d-flex flex-wrap justify-content-center gap-2"></div>
+                </div>
+
+                <!-- Hidden inputs + Submit Button -->
+                <div id="submitHiddenSelectedSeats">
+                    <button type="submit" form="submitSeatForm" class="btn bg-cyan-500 text-white w-100 mt-3">
+                        Continue to Traveller Info
+                    </button>
+                </div>
+            </div>
+
             <!-- Back Button -->
             <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
                 <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">
@@ -142,15 +151,15 @@
 .seat-grid {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Increased gap between seat rows */
-    justify-content: center; /* Center the grid content */
-    align-items: center; /* Center the content horizontally */
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
 }
 
 .seat-row {
     display: flex;
-    gap: 18px; /* column gap */
-    justify-content: center; /* Center each row */
+    gap: 18px;
+    justify-content: center;
 }
 
 .seat-box {
@@ -179,14 +188,34 @@
 }
 
 .seat.unavailable-seat {
+    position: relative;
     background-color: #e9ecef;
+    color: #888;
     cursor: not-allowed;
+    user-select: none;
+    font-weight: bold;
 }
 
+/* Single diagonal cross line */
+.seat.unavailable-seat::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1.5px;
+    background-color: #999; /* grey line */
+    transform: rotate(-45deg);
+    transform-origin: center;
+    pointer-events: none;
+}
+
+
+
 .driver-seat {
-    width: 300px;  /* Set width to 100px */
-    height: 40px; /* Set height (length) to 100px */
-    background-color: #6c757d; /* Grey color for the driver */
+    width: 300px;
+    height: 40px;
+    background-color: #6c757d;
 }
 
 .driver {
@@ -195,22 +224,21 @@
     font-weight: bold;
     padding: 10px;
     border-radius: 5px;
-    height: 100%; /* Ensures the text is centered within the seat */
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.selectedSeatsDisplay {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 2rem;
-    padding-top: 0.5rem;
-    background-color: #f8f9fa; 
-    border-top: none; 
+#selectedSeatsDisplay .seat-box {
+    padding: 12px 18px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    background-color: #0dcaf0;
+    color: white;
+    border-radius: 5px;
+    text-align: center;
 }
-
 </style>
 
 <script>
@@ -221,7 +249,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const maxSeats = {{ $numberOfSeats }};
 
     function updateSubmitHiddenInputs() {
-        submitHiddenContainer.innerHTML = '';
+        // Clear previous inputs and display
+        submitHiddenContainer.querySelectorAll('input[name="selected_seats[]"]').forEach(i => i.remove());
         selectedSeatsDisplay.innerHTML = '';
 
         const selectedSeats = Array.from(seatElements)
@@ -229,20 +258,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .map(seat => seat.parentElement.getAttribute('data-seat'));
 
         selectedSeats.forEach(seatNum => {
-            // Hidden input for form submission
+            // Add hidden inputs for form submission
             const input = document.createElement('input');
             input.type = 'hidden';
             input.name = 'selected_seats[]';
             input.value = seatNum;
             submitHiddenContainer.appendChild(input);
 
-            // Create styled seat box
+            // Show selected seat visually
             const seatBox = document.createElement('div');
             seatBox.textContent = seatNum;
-            seatBox.classList.add('seat-box', 'rounded', 'bg-cyan-500', 'text-white', 'text-center');
-            seatBox.style.padding = '12px 18px';
-            seatBox.style.fontSize = '1.1rem';
-            seatBox.style.fontWeight = '500';
+            seatBox.classList.add('seat-box');
             selectedSeatsDisplay.appendChild(seatBox);
         });
     }
@@ -255,17 +281,14 @@ document.addEventListener('DOMContentLoaded', function() {
             seatEl.setAttribute('aria-checked', 'false');
         } else {
             if (selectedSeatsCount >= maxSeats) {
-                // Prevent further selection if the maximum limit is reached without showing an alert
-                return;
+                return; // Max seats reached - do nothing
             }
             seatEl.classList.add('selected');
             seatEl.setAttribute('aria-checked', 'true');
         }
-
         updateSubmitHiddenInputs();
     }
 
-    // Attach click + keyboard events
     seatElements.forEach(seat => {
         seat.addEventListener('click', () => toggleSeatSelection(seat));
         seat.addEventListener('keydown', e => {
@@ -276,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Restore old seats if validation failed
+    // Restore old selected seats if validation failed
     @if(old('selected_seats'))
         const oldSelectedSeats = @json(old('selected_seats'));
         seatElements.forEach(seat => {
@@ -290,5 +313,5 @@ document.addEventListener('DOMContentLoaded', function() {
     @endif
 });
 </script>
-<div class="container mt-5">
+
 @endsection

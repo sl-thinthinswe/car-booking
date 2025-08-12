@@ -19,6 +19,9 @@ Route::prefix('booking')->group(function () {
     Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('booking.cancel');  
     Route::get('/{booking}/success', [BookingController::class, 'successPage'])->name('booking.success');
     Route::get('/{booking}/receipt', [BookingController::class, 'receiptPage'])->name('booking.receipt');
+    Route::get('/print', [BookingController::class, 'showRetrieveForm'])->name('print');
+Route::get('/booking/retrieve', [BookingController::class, 'retrieve'])->name('booking.retrieve');
+
 });
 
 
@@ -27,9 +30,9 @@ Route::prefix('booking')->group(function () {
 Route::get('/about', function () {
     return view('pages.customer.about');
 })->name('about');
-Route::get('/print', function () {
-    return view('pages.customer.print');
-})->name('print');
+// Route::get('/print', function () {
+// //     return view('pages.customer.print');
+// // })->name('print');
 Route::get('/faq', function () {
     return view('pages.customer.faq');
 })->name('faq');
