@@ -4,143 +4,156 @@
 
 @section('content')
 <div class="container my-5">
-    <h2 class="text-center mb-4">Frequently Asked Questions</h2>
+    <div class="bg-gray-100 py-10">
+  <div class="container mx-auto px-4">
+    <h2 class="text-3xl font-semibold text-center text-gray-800">Frequently Asked Questions (FAQs)</h2>
+    
+    <!-- Booking Section -->
+    <div class="mt-8">
+      <h3 class="text-xl font-medium text-gray-800">Booking</h3>
+      <div class="space-y-4 mt-4">
 
-    <!-- Filter Dropdown -->
-    <div class="mb-4 text-center">
-        <label for="faqFilter" class="form-label fw-bold">Select a Topic:</label>
-        <select id="faqFilter" class="form-select w-auto d-inline-block">
-            <option value="all">All</option>
-            <option value="booking">Booking</option>
-            <option value="payment">Payment</option>
-            <option value="support">Support</option>
-        </select>
-    </div>
-
-    <!-- Accordion -->
-    <div class="accordion" id="faqAccordion">
-        <!-- FAQ ITEM TEMPLATE -->
-        @php
-            $faqs = [
-                ['id' => 'one', 'topic' => 'booking', 'question' => 'What is the process of booking a ticket?', 'answer' => 'Select cities, time, number of seats, then proceed to payment to confirm your booking.'],
-                ['id' => 'two', 'topic' => 'support', 'question' => 'How can I cancel my booking?', 'answer' => 'Visit your booking page or contact customer support. Cancellation fees may apply.'],
-                ['id' => 'three', 'topic' => 'payment', 'question' => 'What payment methods are accepted?', 'answer' => 'Credit cards, debit cards, and mobile payment systems like PayPal are accepted.'],
-                ['id' => 'four', 'topic' => 'booking', 'question' => 'How do I change my seat selection?', 'answer' => 'Go to "My Bookings" or contact support to modify your seat.'],
-                ['id' => 'five', 'topic' => 'booking', 'question' => 'Can I book tickets for multiple passengers?', 'answer' => 'Yes, just select the number of seats during the booking process.'],
-                ['id' => 'six', 'topic' => 'support', 'question' => 'What should I do if I need to modify my booking details?', 'answer' => 'Update through your account or contact support.'],
-                ['id' => 'seven', 'topic' => 'payment', 'question' => 'How do I make a payment for my ticket?', 'answer' => 'After booking, you’ll be redirected to a secure page to complete your payment.'],
-                ['id' => 'eight', 'topic' => 'payment', 'question' => 'Can I get a refund if I cancel my booking?', 'answer' => 'Refunds are possible depending on the cancellation time and fee policy.'],
-                ['id' => 'nine', 'topic' => 'booking', 'question' => 'How do I know if my booking was successful?', 'answer' => 'You\'ll receive a confirmation email with details and ticket number after payment.']
-            ];
-        @endphp
-
-        @foreach($faqs as $faq)
-        <div class="accordion-item" data-topic="{{ $faq['topic'] }}">
-            <h2 class="accordion-header" id="heading{{ $faq['id'] }}">
-                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#collapse{{ $faq['id'] }}" aria-expanded="false"
-                        aria-controls="collapse{{ $faq['id'] }}">
-                    {{ $faq['question'] }}
-                </button>
-            </h2>
-            <div id="collapse{{ $faq['id'] }}" class="accordion-collapse collapse"
-                 aria-labelledby="heading{{ $faq['id'] }}" data-bs-parent="#faqAccordion">
-                <div class="accordion-body">
-                    {{ $faq['answer'] }}
-                </div>
-            </div>
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('booking1')">
+            <span class="font-medium">How far in advance can I make a booking?</span>
+          </button>
+          <div id="booking1" class="text-gray-600 hidden mt-2">
+            You can purchase the bus ticket up to 28 days in advance, depending on the bus operators.
+          </div>
         </div>
-        @endforeach
-    </div>
-</div>
-<div class="container my-5">
-<div id="accordion-collapse" data-accordion="collapse">
-    <h2 id="accordion-collapse-heading-1">
-        <button type="button" class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-1" aria-expanded="true" aria-controls="accordion-collapse-body-1">
-        <span>What is Flowbite?</span>
-        <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-        </svg>
-        </button>
-    </h2>
-    <div id="accordion-collapse-body-1" class="hidden" aria-labelledby="accordion-collapse-heading-1">
-        <div class="p-3 border border-b-0 border-gray-200">
-        <p class="mb-2 text-gray-500">Flowbite is an open-source library of interactive components built on top of Tailwind CSS including buttons, dropdowns, modals, navbars, and more.</p>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('booking2')">
+            <span class="font-medium">Can I change the departure date and time of my confirmed ticket?</span>
+          </button>
+          <div id="booking2" class="text-gray-600 hidden mt-2">
+            Please contact our Customer Support Team at least 48 hours prior to your original departure date and time. Changes are subject to availability and depend on the terms and conditions of bus operators.
+          </div>
         </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('booking3')">
+            <span class="font-medium">Can I reschedule my booking to a different route?</span>
+          </button>
+          <div id="booking3" class="text-gray-600 hidden mt-2">
+            Rescheduling to a different route is possible. Please contact our support team for assistance, and be aware of potential extra charges.
+          </div>
+        </div>
+
+      </div>
     </div>
-  <h2 id="accordion-collapse-heading-2">
-    <button type="button" class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-2" aria-expanded="false" aria-controls="accordion-collapse-body-2">
-      <span>Is there a Figma file available?</span>
-      <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-      </svg>
-    </button>
-  </h2>
-  <div id="accordion-collapse-body-2" class="hidden" aria-labelledby="accordion-collapse-heading-2">
-    <div class="p-3 border border-b-0 border-gray-200">
-      <p class="mb-2 text-gray-500">Flowbite is first conceptualized and designed using the Figma software so everything you see in the library has a design equivalent in our Figma file.</p>
-      <p class="text-gray-500">Check out the <a href="https://flowbite.com/figma/" class="text-blue-600 dark:text-blue-500 hover:underline">Figma design system</a> based on the utility classes from Tailwind CSS and components from Flowbite.</p>
+
+    <!-- Payment Section -->
+    <div class="mt-8">
+      <h3 class="text-xl font-medium text-gray-800">Payment</h3>
+      <div class="space-y-4 mt-4">
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('payment1')">
+            <span class="font-medium">How do I make sure about the payment details and booking confirmation status?</span>
+          </button>
+          <div id="payment1" class="text-gray-600 hidden mt-2">
+            You’ll receive a confirmation email or SMS depending on the info you provided as the guest information after the booking is confirmed.
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('payment2')">
+            <span class="font-medium">What payment methods are accepted?</span>
+          </button>
+          <div id="payment2" class="text-gray-600 hidden mt-2">
+            We accept payments via credit card, debit card, mobile payment apps, and online bank transfers.
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('payment3')">
+            <span class="font-medium">Is it safe to pay online?</span>
+          </button>
+          <div id="payment3" class="text-gray-600 hidden mt-2">
+            Yes, we use secure encryption methods to ensure that all transactions are safe and secure.
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-  <h2 id="accordion-collapse-heading-3">
-    <button type="button" class="flex items-center justify-between w-full p-3 font-medium rtl:text-right text-gray-500 border border-b-0 border-gray-200 hover:bg-gray-100 gap-3" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3">
-      <span>What are the differences between Flowbite and Tailwind UI?</span>
-      <svg data-accordion-icon class="w-3 h-3 rotate-180 shrink-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-      </svg>
-    </button>
-  </h2>
-  <div id="accordion-collapse-body-3" class="hidden" aria-labelledby="accordion-collapse-heading-3">
-    <div class="p-3 border border-b-0 border-gray-200">
-      <p class="mb-2 text-gray-500">The main difference is that the core components from Flowbite are open source under the MIT license, whereas Tailwind UI is a paid product. Another difference is that Flowbite relies on smaller and standalone components, whereas Tailwind UI offers sections of pages.</p>
-      <p class="mb-2 text-gray-500">However, we actually recommend using both Flowbite, Flowbite Pro, and even Tailwind UI as there is no technical reason stopping you from using the best of two worlds.</p>
-      <p class="mb-2 text-gray-500">Learn more about these technologies:</p>
-      <ul class="ps-5 text-gray-500 list-disc">
-        <li><a href="https://flowbite.com/pro/" class="text-blue-600 dark:text-blue-500 hover:underline">Flowbite Pro</a></li>
-        <li><a href="https://tailwindui.com/" rel="nofollow" class="text-blue-600 dark:text-blue-500 hover:underline">Tailwind UI</a></li>
-      </ul>
+
+    <!-- Cancellation Section -->
+    <div class="mt-8">
+      <h3 class="text-xl font-medium text-gray-800">Cancellation</h3>
+      <div class="space-y-4 mt-4">
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('cancellation1')">
+            <span class="font-medium">Can I cancel my ticket?</span>
+          </button>
+          <div id="cancellation1" class="text-gray-600 hidden mt-2">
+            Yes, you can cancel your ticket within 24 hours of booking for a full refund. For cancellations made after 24 hours, a cancellation fee may apply.
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('cancellation2')">
+            <span class="font-medium">How do I request a cancellation?</span>
+          </button>
+          <div id="cancellation2" class="text-gray-600 hidden mt-2">
+            You can request a cancellation by contacting our Customer Support or by using the cancellation option in your booking confirmation email.
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('cancellation3')">
+            <span class="font-medium">Will I get a refund after cancellation?</span>
+          </button>
+          <div id="cancellation3" class="text-gray-600 hidden mt-2">
+            Refunds will be processed within 7 business days, depending on your payment method.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Others Section -->
+    <div class="mt-8">
+      <h3 class="text-xl font-medium text-gray-800">Others</h3>
+      <div class="space-y-4 mt-4">
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('others1')">
+            <span class="font-medium">Can I bring luggage on the bus?</span>
+          </button>
+          <div id="others1" class="text-gray-600 hidden mt-2">
+            Yes, you can bring a small carry-on bag. Larger items may require an additional fee.
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('others2')">
+            <span class="font-medium">Do I need to show an ID to board the bus?</span>
+          </button>
+          <div id="others2" class="text-gray-600 hidden mt-2">
+            Yes, passengers are required to present a valid ID at the time of boarding along with the bus ticket.
+          </div>
+        </div>
+
+        <div class="bg-white shadow-md rounded-lg p-4">
+          <button class="w-full text-left text-lg text-gray-700 focus:outline-none" onclick="toggleAnswer('others3')">
+            <span class="font-medium">Is there Wi-Fi on the bus?</span>
+          </button>
+          <div id="others3" class="text-gray-600 hidden mt-2">
+            Yes, most of our buses are equipped with free Wi-Fi for passengers.
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
 
-
-<div class="accordion" id="accordionExample">
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingOne">
-      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Accordion Item #1
-      </button>
-    </h2>
-    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingTwo">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-        Accordion Item #2
-      </button>
-    </h2>
-    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div>
-  <div class="accordion-item">
-    <h2 class="accordion-header" id="headingThree">
-      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-        Accordion Item #3
-      </button>
-    </h2>
-    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-      <div class="accordion-body">
-        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-      </div>
-    </div>
-  </div>
-</div>
-
+<script>
+  function toggleAnswer(answerId) {
+    const answer = document.getElementById(answerId);
+    answer.classList.toggle('hidden');
+  }
+</script>
 @endsection

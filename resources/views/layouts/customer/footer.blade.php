@@ -5,7 +5,7 @@
     <!-- Logo + Description -->
     <div class="flex flex-col items-center lg:items-start">
       <div class="flex items-center justify-center lg:justify-start gap-1 mb-2">
-        <img src="{{ asset('images/2-removebg-preview.png') }}" alt="Car Icon" class="w-10 h-6 " />
+        <img src="{{ asset('images/SeatSnap_BG.png') }}" alt="Car Icon" class="w-10 h-6 " />
         <h2 class="text-lg font-semibold">SeatSnap</h2>
       </div>
       <p class="text-xs text-gray-300 max-w-xs lg:max-w-full">
