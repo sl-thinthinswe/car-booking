@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\Customer\HomeController;
-use App\Http\Controllers\Admin\CityController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\CityController;
+use App\Http\Controllers\Customer\HomeController;
+use App\Http\Controllers\Customer\BookingController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'showForm')->name('home');
@@ -10,6 +11,14 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/seat', 'showSeat')->name('seat');
     Route::post('/select', 'storeSelection')->name('select');
     Route::get('/select', 'showTravellerForm')->name('traveller.form');
+});
+Route::prefix('booking')->group(function () {
+    Route::post('/pending', [BookingController::class, 'storePending'])->name('booking.storePending');
+    Route::get('/{booking}/payment', [BookingController::class, 'paymentPage'])->name('booking.payment');
+    Route::post('/{booking}/confirm', [BookingController::class, 'confirmPayment'])->name('booking.confirm');
+    Route::post('/{booking}/cancel', [BookingController::class, 'cancel'])->name('booking.cancel');  
+    Route::get('/{booking}/success', [BookingController::class, 'successPage'])->name('booking.success');
+    Route::get('/{booking}/receipt', [BookingController::class, 'receiptPage'])->name('booking.receipt');
 });
 
 
