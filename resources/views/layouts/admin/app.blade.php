@@ -36,6 +36,7 @@
     <script src="{{ asset('js/jquery/jquery-3.7.1.min.js') }}"></script>
     <script src="{{ asset('js/select2/select-2.min.js') }}"></script>
     <script src="{{ asset('js/custom/all.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
         $(document).ready(function () {
