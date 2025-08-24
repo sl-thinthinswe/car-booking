@@ -123,6 +123,8 @@
                         </li>
                     </ul>
                 </div>
+                 </div>
+
 
                 <!-- Centered Selected Seats Display -->
                 <div class="d-flex justify-content-center my-4">
@@ -135,8 +137,8 @@
                         Continue to Traveller Info
                     </button>
                 </div>
-            </div>
-
+                </div>
+           
             <!-- Back Button -->
             <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
                 <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">

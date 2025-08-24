@@ -11,6 +11,11 @@
     </style>
 </head>
 <body>
+    <!-- Add the logo for PDF rendering -->
+<div style="text-align: center; margin-top: 20px;">
+    <img src="{{ public_path('images/bco.png') }}" alt="Logo" style="max-width: 150px;">
+</div>
+<h2 style="text-align: center; font-size:xl;">Seat Snap</h2>
     <h1>Booking Receipt #{{ $booking->id }}</h1>
 
     <div class="details">

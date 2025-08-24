@@ -65,7 +65,7 @@
         font-size: 1.75rem;
         font-weight: 700;
         margin-bottom: 0.4rem;
-        color: #0d6efd;
+        color: #0f0f10;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
@@ -140,7 +140,7 @@
     }
 
     .btn-primary {
-        background-color: #0d6efd;
+        background-color: #006c7f;
         border: none;
         color: #fff;
         border-radius: 0.45rem;
@@ -152,7 +152,7 @@
     }
 
     .btn-primary:hover:not(:disabled) {
-        background-color: #0b5ed7;
+        background-color: #006c7f;
     }
 
     .btn-outline-secondary {
