@@ -1,6 +1,6 @@
 <div class="d-flex flex-wrap justify-content-between align-items-center py-3 mb-2 border-bottom">
     <button class="btn btn-outline-primary d-md-none me-2 rounded-circle" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile" aria-controls="sidebarMobile" style="width: 40px; height: 40px;">
-        <i class="bi bi-list"></i> 
+        <i class="bi bi-list"></i>
     </button>
 
     <div class="flex-grow-1 text-center text-md-start ms-2">
@@ -10,31 +10,28 @@
     </div>
 
     @auth
-    @php
-        $admin = Auth::user();
-        $unreadNotifications = $admin->unreadNotifications;
-    @endphp
+        @php
+            $admin = Auth::user();
+            // Remove the unreadNotifications line
+        @endphp
 
-    <div class="d-flex align-items-center gap-3">
-
-        {{-- User Dropdown --}}
-        <div class="dropdown">
-            <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                <i class="bi bi-person-circle me-2"></i>
-                {{ $admin->name }}
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
-                <li>
-                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
-                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                        <i class="bi bi-box-arrow-right me-2"></i>Logout
-                    </a>
-                </li>
-            </ul>
-            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+        <div class="d-flex align-items-center gap-3">
+            {{-- User Dropdown --}}
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-person-circle me-2"></i>
+                    {{ $admin->name }}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
+                    <li>
+                        <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                           onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+            </div>
         </div>
-
-    </div>
     @endauth
-
 </div>
