@@ -59,7 +59,10 @@
                 → {{ $booking->trip->route->arrival->name ?? 'N/A' }}
             </p>
             <p><strong>Departure Time:</strong> {{ $booking->trip->departure_time }}</p>
+            <p><strong>License Plate:</strong> {{ $booking->trip->vehicle->license_plate ?? 'N/A' }}</p>
+
         </div>
+        
     </div>
     <a href="{{ route('admin.bookings.index') }}" class="btn btn-secondary mt-4">← Back to Bookings List</a>
 </div>
