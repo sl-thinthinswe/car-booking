@@ -102,7 +102,7 @@
   document.getElementById('increment').addEventListener('click', () => {
     const seatInput = document.getElementById('seatCount');
     let current = parseInt(seatInput.value);
-    if (current < 4) {
+    if (current < 14) {
       seatInput.value = current + 1;
     }
   });

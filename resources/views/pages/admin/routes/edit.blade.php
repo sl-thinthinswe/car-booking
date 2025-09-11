@@ -36,15 +36,20 @@
     </div>
 
     <div class="form-group mb-3">
-        <label for="duration">Duration (HH:MM)</label>
-        <input
-            type="time"
-            name="duration"
-            id="duration"
-            class="form-control @error('duration') is-invalid @enderror"
-            value="{{ old('duration', $route->duration) }}"
-            required
-        >
+    <label for="duration">Duration (HH:MM)</label>
+    <input
+        type="text"
+        name="duration"
+        id="duration"
+        class="form-control @error('duration') is-invalid @enderror"
+        value="{{ old('duration', $route->duration) }}"
+        placeholder="e.g. 02:30"
+        pattern="^([0-9]{1,2}):([0-5][0-9])$"
+        required
+    >
+    <small class="form-text text-muted">Enter hours and minutes (HH:MM), e.g. 05:45</small>
+</div>
+
         @error('duration')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror

@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <style>
         body { font-family: Arial, sans-serif; font-size: 14px; }
-        h1 { color: #007bff; }
+        h1 { color: #0c0c0c; }
         .details { margin-top: 20px; }
         .details strong { display: inline-block; width: 130px; }
-        .footer { margin-top: 50px; font-size: 12px; color: #888; }
+        .footer { margin-top: 50px; font-size: 36px; color: #868895; }
     </style>
 </head>
 <body>
@@ -24,8 +24,8 @@
         <p><strong>Departure Time:</strong> {{ \Carbon\Carbon::parse($booking->trip->departure_time)->format('M d, Y - h:i A') ?? '-' }}</p>
         <p><strong>Seats:</strong> {{ $booking->seats->pluck('seat_number')->join(', ') ?? '-' }}</p>
         <p><strong>Total Paid:</strong> {{ number_format($booking->total_amount, 2) }} MMK</p>
-        <p><strong>Payment Method:</strong> {{ $booking->payment_method ?? '-' }}</p>
-        <p><strong>Payment Reference:</strong> {{ $booking->payment_reference ?? 'N/A' }}</p>
+        {{-- <p><strong>Payment Method:</strong> {{ $booking->payment_method ?? '-' }}</p> --}}
+        {{-- <p><strong>Payment Reference:</strong> {{ $booking->payment_reference ?? 'N/A' }}</p> --}}
         <p><strong>Booking Time:</strong> {{ \Carbon\Carbon::parse($booking->booking_time)->format('M d, Y - h:i A') }}</p>
     </div>
 

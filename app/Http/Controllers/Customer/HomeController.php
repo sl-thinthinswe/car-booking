@@ -101,9 +101,9 @@ class HomeController extends Controller
         if ($vehicleModel === 'express') {
             $totalPassengerSeats = 44; // Express: 44 passenger seats
         } elseif ($vehicleModel === 'small car' || $vehicleModel === 'small') {
-            $totalPassengerSeats = 4;  // Small car: 4 passenger seats
+            $totalPassengerSeats = 14;  // Small car: 4 passenger seats
         } else {
-            $totalPassengerSeats = 4;  // Default fallback
+            $totalPassengerSeats = 14;  // Default fallback
         }
     
         // Fetch booked seats for the trip (actual seat numbers)

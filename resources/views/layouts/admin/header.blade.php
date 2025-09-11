@@ -12,14 +12,15 @@
     @auth
         @php
             $admin = Auth::user();
-            // Remove the unreadNotifications line
         @endphp
 
         <div class="d-flex align-items-center gap-3">
             {{-- User Dropdown --}}
             <div class="dropdown">
                 <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="bi bi-person-circle me-2"></i>
+                    <!-- Display Profile Photo or Default Image -->
+                    <img src="{{ $admin->profile_photo ? asset('storage/' . $admin->profile_photo) : asset('images/profile.jpg') }}" 
+                         alt="Profile Photo" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;">
                     {{ $admin->name }}
                 </button>
                 <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">

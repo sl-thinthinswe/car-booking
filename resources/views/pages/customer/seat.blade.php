@@ -137,16 +137,14 @@
                         Continue to Traveller Info
                     </button>
                 </div>
-                </div>
            
-            <!-- Back Button -->
-            <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
-                <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">
-                    ← Back to Trip Selection
-                </a>
-            </div>
-        </div>
-    </div>
+          <div class="d-flex flex-wrap justify-content-center gap-2 mb-2">
+    <a href="javascript:history.back()" class="btn btn-secondary w-100 mt-2 py-2">
+        ← Back to Trip Selection
+    </a>
+</div>
+</div>
+</div>
 </div>
 
 <style>

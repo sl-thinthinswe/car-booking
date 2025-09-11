@@ -17,9 +17,7 @@ use App\Http\Controllers\Admin\NotificationController;
 //     return view("pages.admin.cities.index");
 // });
 
-
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-
 
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -32,6 +30,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::resource('trips', TripController::class);
     Route::resource('bookings', BookingController::class);
     Route::resource('booking_seats', BookingSeatController::class);
+
+    // Custom delete route for bookings
+    Route::delete('bookings/{booking}', [BookingController::class, 'destroy'])
+        ->name('bookings.destroy');
 
     Route::patch('bookings/{booking}/status', [BookingController::class, 'updateStatus'])
         ->name('bookings.updateStatus');

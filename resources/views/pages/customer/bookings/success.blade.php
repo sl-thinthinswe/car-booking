@@ -192,14 +192,14 @@
                 <th>Number of Seats</th>
                 <td>{{ $booking->number_of_seat }}</td>
             </tr>
-            <tr>
-                <th>Payment Method</th>
-                <td>{{ $booking->payment_method ?? 'N/A' }}</td>
-            </tr>
-            <tr>
-                <th>Payment Reference</th>
-                <td>{{ $booking->payment_reference ?? 'N/A' }}</td>
-            </tr>
+            {{-- <tr> --}}
+                {{-- <th>Payment Method</th> --}}
+                {{-- <td>{{ $booking->payment_method ?? 'N/A' }}</td> --}}
+            {{-- </tr> --}}
+            {{-- <tr> --}}
+                {{-- <th>Payment Reference</th> --}}
+                {{-- <td>{{ $booking->payment_reference ?? 'N/A' }}</td> --}}
+            {{-- </tr> --}}
         </table>
 
         <table class="summary">

@@ -31,30 +31,68 @@
     @endforeach
 </div>
 
-
-{{-- Charts Section --}}
-{{-- <div class="row mt-4 g-4">
-
-    <div class="col-lg-6 mt-4">
-        <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="mb-0 fw-semibold text-dark">Bookings by Route</h5>
-                <span class="badge bg-light text-muted">Current Data</span>
-            </div>
-            <canvas id="bookingsByRouteChart" height="250"></canvas>
-        </div>
-    </div> --}}
-    
-    {{-- Booking Overview Chart --}}
-    {{-- <div class="col-lg-6">
+<div class="row mt-4 g-4">
+    <!-- Booking Overview Chart -->
+    <div class="col-lg-6">
         <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="mb-0 fw-semibold text-dark">Booking Overview</h5>
                 <span class="badge bg-light text-muted">Current Stats</span>
             </div>
-            <canvas id="bookingChart" height="250"></canvas>
+            <canvas id="bookingOverviewChart" height="250"></canvas>
         </div>
-    </div> --}}
+    </div>
 
+    <!-- Top Routes Chart -->
+    <div class="col-lg-6">
+        <div class="card border-0 shadow-sm rounded-4 bg-white p-4">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 class="mb-0 fw-semibold text-dark">Top 5 Most Booked Routes</h5>
+                <span class="badge bg-light text-muted">Current Stats</span>
+            </div>
+            <canvas id="mostBookedRoutesChart" height="250"></canvas>
+        </div>
+    </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Booking Overview Doughnut Chart
+    new Chart(document.getElementById('bookingOverviewChart').getContext('2d'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Confirmed', 'Pending', 'Cancelled'],
+            datasets: [{
+                data: [
+                    {{ $bookingOverview['confirmed'] }},
+                    {{ $bookingOverview['pending'] }},
+                    {{ $bookingOverview['cancelled'] }}
+                ],
+                backgroundColor: ['#28a745', '#ffc107', '#dc3545']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { position: 'bottom' } }
+        }
+    });
+
+    // Top 5 Most Booked Routes Bar Chart
+    new Chart(document.getElementById('mostBookedRoutesChart').getContext('2d'), {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($routeLabels) !!},
+            datasets: [{
+                label: 'Bookings',
+                data: {!! json_encode($routeData) !!},
+                backgroundColor: '#0d6efd'
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: { y: { beginAtZero: true, precision: 0 } }
+        }
+    });
+</script>
 @endsection

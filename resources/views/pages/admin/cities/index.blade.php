@@ -47,7 +47,7 @@
         </table>
     </div>
 
-    <div class="d-flex justify-content-center mt-3">
+    <div class="justify-content-right mt-3">
         {{ $cities->links() }}
     </div>
 </div>
