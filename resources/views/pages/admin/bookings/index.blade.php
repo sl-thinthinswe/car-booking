@@ -42,6 +42,7 @@
                     <th>ID</th>
                     <th><i class="bi bi-person"></i> User</th>
                     <th><i class="bi bi-map"></i> Trip</th>
+                    <th><i class="bi bi-truck"></i> License Plate</th> {{-- ✅ New --}}
                     <th><i class="bi bi-clock"></i> Booking Time</th>
                     <th><i class="bi bi-grid-3x3-gap"></i> Seats</th>
                     <th><i class="bi bi-cash"></i> Total Amount</th>
@@ -50,47 +51,44 @@
                 </tr>
             </thead>
             <tbody>
-                @if($bookings->count() > 0)
-                    @foreach($bookings as $index => $booking)
-                        <tr>
-                            <td>{{ $bookings->firstItem() + $index }}</td>
-                            <td>{{ $booking->user->name ?? 'N/A' }}</td>
-                            <td>
-                                @if ($booking->trip && $booking->trip->route)
-                                    {{ $booking->trip->route->departure->name ?? 'N/A' }} → 
-                                    {{ $booking->trip->route->arrival->name ?? 'N/A' }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-                            <td>{{ \Carbon\Carbon::parse($booking->booking_time)->format('Y-m-d H:i') }}</td>
-                            <td>{{ $booking->number_of_seat }}</td>
-                            <td>
-                                @if($booking->trip && $booking->trip->price_per_seat)
-                                    {{ number_format($booking->trip->price_per_seat * $booking->number_of_seat) }} MMK
-                                @else
-                                    N/A
-                                @endif
-                            </td>                            <td>
-                                <span class="badge bg-{{ match($booking->status) {
-                                    'confirmed' => 'success',
-                                    'pending' => 'warning',
-                                    'cancelled' => 'danger',
-                                } }}">{{ ucfirst($booking->status) }}</span>
-                            </td>
-                            <td>
-                                <a href="{{ route('admin.bookings.show', $booking->id) }}" class="btn btn-sm btn-outline-primary" title="Manage">
-                                    <i class="bi bi-box-arrow-in-right"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    @endforeach
-                @else
+                @foreach($bookings as $index => $booking)
                     <tr>
-                        <td colspan="8" class="text-center">No bookings found.</td>
+                        <td>{{ $bookings->firstItem() + $index }}</td>
+                        <td>{{ $booking->user->name ?? 'N/A' }}</td>
+                        <td>
+                            @if ($booking->trip && $booking->trip->route)
+                                {{ $booking->trip->route->departure->name ?? 'N/A' }} → 
+                                {{ $booking->trip->route->arrival->name ?? 'N/A' }}
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>{{ $booking->trip->vehicle->license_plate ?? 'N/A' }}</td> {{-- ✅ Show license plate --}}
+                        <td>{{ \Carbon\Carbon::parse($booking->booking_time)->format('Y-m-d H:i') }}</td>
+                        <td>{{ $booking->number_of_seat }}</td>
+                        <td>
+                            @if($booking->trip && $booking->trip->price_per_seat)
+                                {{ number_format($booking->trip->price_per_seat * $booking->number_of_seat) }} MMK
+                            @else
+                                N/A
+                            @endif
+                        </td>
+                        <td>
+                            <span class="badge bg-{{ match($booking->status) {
+                                'confirmed' => 'success',
+                                'pending' => 'warning',
+                                'cancelled' => 'danger',
+                            } }}">{{ ucfirst($booking->status) }}</span>
+                        </td>
+                        <td>
+                            <a href="{{ route('admin.bookings.show', $booking->id) }}" class="btn btn-sm btn-outline-primary" title="Manage">
+                                <i class="bi bi-box-arrow-in-right"></i>
+                            </a>
+                        </td>
                     </tr>
-                @endif
+                @endforeach
             </tbody>
+            
         </table>
     </div>
 

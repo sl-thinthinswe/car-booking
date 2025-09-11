@@ -15,8 +15,12 @@ class BookingSeatController extends Controller
     public function index()
     {
         $bookingSeats = BookingSeat::with(['booking.user', 'seat', 'trip.route.departure', 'trip.route.arrival'])
-            ->orderBy('id', 'desc')
-            ->paginate(15);
+    ->whereHas('booking', function ($query) {
+        $query->where('status', '!=', 'cancelled');
+    })
+    ->orderBy('id', 'desc')
+    ->paginate(15);
+
 
         return view('pages.admin.booking_seats.index', compact('bookingSeats'));
     }
