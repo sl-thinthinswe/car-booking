@@ -16,81 +16,83 @@ class BookingController extends Controller
 {
     // Step 1: Store booking as 'pending' and user info
     public function storePending(Request $request)
-    {
-        $request->validate([
-            'name'  => 'required|string|max:255',
-            'phone' => ['required', 'regex:/^09\d{9}$/'],
-            'email' => 'nullable|email',
+{
+    $request->validate([
+        'name'  => 'required|string|max:255',
+        'phone' => ['required', 'regex:/^09\d{9}$/'],
+        'email' => 'nullable|email',
+    ]);
+
+    $selectedSeats = session('selected_seats');
+    $tripId = session('trip_id');
+
+    if (!$selectedSeats || !$tripId) {
+        return redirect()->route('home')->withErrors('Please select seats before booking.');
+    }
+
+    // Prevent double booking
+    $alreadyBookedSeatNumbers = Booking::where('trip_id', $tripId)
+        ->where('status', '!=', 'cancelled')
+        ->whereHas('seats', function ($query) use ($selectedSeats) {
+            $query->whereIn('seat_number', $selectedSeats);
+        })
+        ->get()
+        ->pluck('seats')
+        ->flatten()
+        ->pluck('seat_number')
+        ->unique()
+        ->intersect($selectedSeats)
+        ->all();
+
+    if (!empty($alreadyBookedSeatNumbers)) {
+        return back()->withErrors([
+            'selected_seats' => 'Sorry, the following seat(s) are already booked: ' . implode(', ', $alreadyBookedSeatNumbers),
+        ])->withInput();
+    }
+
+    DB::beginTransaction();
+    try {
+        // Save email as null if empty
+        $email = $request->filled('email') ? $request->email : null;
+
+        // Create or update user by phone
+        $user = User::updateOrCreate(
+            ['phone' => $request->phone],
+            ['name' => $request->name, 'email' => $email]
+        );
+
+        $trip = Trip::with('vehicle')->findOrFail($tripId);
+
+        // Create booking with status pending
+        $booking = Booking::create([
+            'user_id'        => $user->id,
+            'trip_id'        => $trip->id,
+            'number_of_seat' => count($selectedSeats),
+            'total_amount'   => $trip->price_per_seat * count($selectedSeats),
+            'status'         => 'pending',
         ]);
 
-        $selectedSeats = session('selected_seats');
-        $tripId = session('trip_id');
+        // Find seat records by seat numbers for the vehicle
+        $seats = \App\Models\Seat::where('vehicle_id', $trip->vehicle_id)
+            ->whereIn('seat_number', $selectedSeats)
+            ->get();
 
-        if (!$selectedSeats || !$tripId) {
-            return redirect()->route('home')->withErrors('Please select seats before booking.');
+        foreach ($seats as $seat) {
+            $booking->seats()->attach($seat->id, ['trip_id' => $trip->id]);
         }
 
-        // Prevent double booking: check if any selected seat is already booked
-        $alreadyBookedSeatNumbers = Booking::where('trip_id', $tripId)
-            ->where('status', '!=', 'cancelled') // Ignore cancelled bookings
-            ->whereHas('seats', function ($query) use ($selectedSeats) {
-                $query->whereIn('seat_number', $selectedSeats);
-            })
-            ->get()
-            ->pluck('seats')
-            ->flatten()
-            ->pluck('seat_number')
-            ->unique()
-            ->intersect($selectedSeats)
-            ->all();
+        DB::commit();
 
-        if (!empty($alreadyBookedSeatNumbers)) {
-            return back()->withErrors([
-                'selected_seats' => 'Sorry, the following seat(s) are already booked: ' . implode(', ', $alreadyBookedSeatNumbers),
-            ])->withInput();
-        }
+        // Save current booking id in session for payment
+        session(['current_booking_id' => $booking->id]);
 
-        DB::beginTransaction();
-        try {
-            // Create or update user by phone
-            $user = User::updateOrCreate(
-                ['phone' => $request->phone],
-                ['name' => $request->name, 'email' => $request->email]
-            );
-
-            $trip = Trip::with('vehicle')->findOrFail($tripId);
-
-            // Create booking with status pending
-            $booking = Booking::create([
-                'user_id' => $user->id,
-                'trip_id' => $trip->id,
-                'number_of_seat' => count($selectedSeats),
-                'total_amount' => $trip->price_per_seat * count($selectedSeats),
-                'status' => 'pending',
-            ]);
-
-            // Find seat records by seat numbers for the vehicle
-            $seats = \App\Models\Seat::where('vehicle_id', $trip->vehicle_id)
-                ->whereIn('seat_number', $selectedSeats)
-                ->get();
-
-            foreach ($seats as $seat) {
-                // Attach seat to booking with trip_id in pivot
-                $booking->seats()->attach($seat->id, ['trip_id' => $trip->id]);
-            }
-
-            DB::commit();
-
-            // Save current booking id in session for payment
-            session(['current_booking_id' => $booking->id]);
-
-            // Redirect to payment page
-            return redirect()->route('booking.payment', $booking->id);
-        } catch (\Exception $e) {
-            DB::rollBack();
-            return back()->withErrors('Failed to create booking: ' . $e->getMessage());
-        }
+        return redirect()->route('booking.payment', $booking->id);
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()->withErrors('Failed to create booking: ' . $e->getMessage());
     }
+}
+
 
 
     // Step 2: Show payment page (choose payment method)

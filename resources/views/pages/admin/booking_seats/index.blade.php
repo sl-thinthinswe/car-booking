@@ -18,6 +18,7 @@
                 <th>Seat</th>
                 <th>Trip Route</th>
                 <th>Trip Departure Time</th>
+                <th> License Plate</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -33,6 +34,7 @@
                         → {{ $bs->trip->route->arrival->name ?? 'N/A' }}
                     </td>
                     <td>{{ \Carbon\Carbon::parse($bs->trip->departure_time)->format('Y-m-d H:i') ?? 'N/A' }}</td>
+                    <td>{{ $bs->trip->vehicle->license_plate ?? 'N/A' }}</td>
                     <td>
                         <a href="{{ route('admin.booking_seats.show', $bs->id) }}" class="btn btn-sm btn-info">View</a>
                         {{-- <form action="{{ route('admin.booking_seats.destroy', $bs->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this booking seat?');">

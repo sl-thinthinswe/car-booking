@@ -37,10 +37,20 @@
                         </div>
 
                         <!-- Email -->
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" name="email">
-                        </div>
+<div class="mb-3">
+    <label for="email" class="form-label">
+        Email <small class="text-muted">(Optional)</small>
+    </label>
+    <input 
+        type="email" 
+        class="form-control" 
+        id="email" 
+        name="email" 
+        placeholder="example@email.com"
+    >
+    <div class="invalid-feedback">Please enter a valid email address.</div>
+</div>
+
 
                         <!-- Special Request -->
                         <div class="mb-4">
