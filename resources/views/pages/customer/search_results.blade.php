@@ -8,17 +8,19 @@
     <form action="{{ route('trips.search') }}" method="GET" id="search_form">
            <div class="d-flex justify-content-right gap-3 mb-4">
             <!-- Express Car Button -->
-            <button type="submit" name="vehicle_type" value="express" 
-                id="express_car_btn" class="btn px-4 py-2 {{ (request('vehicle_type') ?? '') == 'express' ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-500 border-cyan-500' }}">
+                <button type="submit" name="vehicle_type" value="express" 
+                id="express_car_btn" 
+                class="btn px-4 py-2 {{ (request('vehicle_type') ?? '') == 'express' ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-500 border-cyan-500' }}">
                 Express Car
-            </button>
+                </button>
 
             <!-- Small Car Button -->
-            <button type="submit" name="vehicle_type" value="small" 
-                id="small_car_btn" class="btn px-4 py-2 {{ (request('vehicle_type') ?? '') == 'small' ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-500 border-cyan-500' }}">
+                <button type="submit" name="vehicle_type" value="small" 
+                id="small_car_btn" 
+                class="btn px-4 py-2 {{ (request('vehicle_type') ?? '') == 'small' ? 'bg-cyan-500 text-white' : 'bg-white text-cyan-500 border-cyan-500' }}">
                 Small Car
-            </button>
-        </div>
+                </button>
+            </div>
 
         <!-- Search Form -->
         <div class="card shadow-sm mb-4">
