@@ -18,74 +18,69 @@ class HomeController extends Controller
     }
 
     public function search(Request $request)
-    {
-        $request->validate([
-            'from' => 'required|exists:cities,id',
-            'to' => 'required|exists:cities,id|different:from',
-            'travel_date' => 'required|date|after_or_equal:today',
-            'numberOfSeats' => 'required|integer|min:1|max:4',
-            'vehicle_type' => 'nullable|in:express,small',
-            'departure_period' => 'nullable|in:anytime,morning,afternoon,evening',
-        ]);
+{
+    $request->validate([
+        'from' => 'required|exists:cities,id',
+        'to' => 'required|exists:cities,id|different:from',
+        'travel_date' => 'required|date|after_or_equal:today',
+        'numberOfSeats' => 'required|integer|min:1|max:4',
+        'vehicle_type' => 'nullable|in:express,small',
+        'departure_period' => 'nullable|in:anytime,morning,afternoon,evening',
+    ]);
 
-        $routes = Route::where('departure_id', $request->from)
-            ->where('arrival_id', $request->to)
-            ->pluck('id');
+    $routes = Route::where('departure_id', $request->from)
+        ->where('arrival_id', $request->to)
+        ->pluck('id');
 
-        $query = Trip::with('route', 'vehicle')
-            ->whereIn('route_id', $routes)
-            ->whereDate('departure_time', $request->travel_date);
+    $query = Trip::with('route', 'vehicle')
+        ->whereIn('route_id', $routes)
+        ->whereDate('departure_time', $request->travel_date);
 
-        // Filter by departure period
-        if ($request->filled('departure_period')) {
-            switch ($request->departure_period) {
-                case 'anytime':
-                    $query->whereTime('departure_time', '>=', '00:00:00')
-                        ->whereTime('departure_time', '<=', '23:59:59');
-                    break;
-
-                case 'morning':
-                    $query->whereTime('departure_time', '>=', '00:00:00')
-                        ->whereTime('departure_time', '<', '12:00:00');
-                    break;
-
-                case 'afternoon':
-                    $query->whereTime('departure_time', '>=', '12:00:00')
-                        ->whereTime('departure_time', '<', '16:00:00');
-                    break;
-
-                case 'evening':
-                    $query->whereTime('departure_time', '>=', '16:00:00')
-                        ->whereTime('departure_time', '<=', '23:59:59');
-                    break;
-            }
+    // Filter by departure period
+    if ($request->filled('departure_period')) {
+        switch ($request->departure_period) {
+            case 'anytime':
+                $query->whereTime('departure_time', '>=', '00:00:00')
+                      ->whereTime('departure_time', '<=', '23:59:59');
+                break;
+            case 'morning':
+                $query->whereTime('departure_time', '>=', '00:00:00')
+                      ->whereTime('departure_time', '<', '12:00:00');
+                break;
+            case 'afternoon':
+                $query->whereTime('departure_time', '>=', '12:00:00')
+                      ->whereTime('departure_time', '<', '16:00:00');
+                break;
+            case 'evening':
+                $query->whereTime('departure_time', '>=', '16:00:00')
+                      ->whereTime('departure_time', '<=', '23:59:59');
+                break;
         }
-
-        // filter by the vehicle model
-        $vehicleTypes = [
-            'express' => 'Express',
-            'small' => 'Small Car',
-        ];
-
-        if ($request->filled('vehicle_type') && isset($vehicleTypes[$request->vehicle_type])) {
-            $query->whereHas('vehicle', function ($q) use ($vehicleTypes, $request) {
-                $q->where('model', $vehicleTypes[$request->vehicle_type]);
-            });
-        }
-
-
-        $trips = $query->get();
-
-
-        $cities = City::all();
-
-        return view('pages.customer.search_results', [
-            'trips' => $trips,
-            'cities' => $cities,
-            'numberOfSeats' => $request->numberOfSeats,
-            'vehicle_type' => $request->vehicle_type,
-        ]);
     }
+
+    // Filter by vehicle type
+    $vehicleTypes = [
+        'express' => 'express',
+        'small' => 'small_car',
+    ];
+
+    if ($request->filled('vehicle_type') && isset($vehicleTypes[$request->vehicle_type])) {
+        $query->whereHas('vehicle', function ($q) use ($vehicleTypes, $request) {
+            $q->where('model', $vehicleTypes[$request->vehicle_type]);
+        });
+    }
+
+    $trips = $query->get();
+    $cities = City::all();
+
+    return view('pages.customer.search_results', [
+        'trips' => $trips,
+        'cities' => $cities,
+        'numberOfSeats' => $request->numberOfSeats,
+        'vehicle_type' => $request->vehicle_type,
+    ]);
+}
+
 
     // Display the seat selection page
     public function showSeat(Request $request)
