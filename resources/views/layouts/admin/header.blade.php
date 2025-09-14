@@ -10,6 +10,7 @@
     </div>
 
     @auth
+<<<<<<< HEAD
         @php
             $admin = Auth::user();
         @endphp
@@ -33,6 +34,28 @@
                 </ul>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
             </div>
+=======
+    
+
+    <div class="d-flex align-items-center gap-3">
+
+        {{-- User Dropdown --}}
+        <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle d-flex align-items-center" type="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="bi bi-person-circle me-2"></i>
+                {{ Auth::user()->name }}
+
+            </button>
+            <ul class="dropdown-menu dropdown-menu-end shadow border-0" aria-labelledby="userDropdown">
+                <li>
+                    <a class="dropdown-item text-danger" href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                        <i class="bi bi-box-arrow-right me-2"></i>Logout
+                    </a>
+                </li>
+            </ul>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">@csrf</form>
+>>>>>>> 7333aa110a892c66278f7fe4ad54c673d85fa860
         </div>
     @endauth
 </div>
